@@ -1,0 +1,10 @@
+annotated-types==0.7.0
+dnspython==2.7.0
+EditorConfig==0.17.0
+jsbeautifier==1.15.1
+pydantic==2.10.6
+pydantic_core==2.27.2
+pymongo==4.10.1
+python-dotenv==1.0.1
+six==1.17.0
+typing_extensions==4.12.2
