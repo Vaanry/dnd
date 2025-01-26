@@ -27,16 +27,17 @@ class Subclass(BaseModel):
 
 
 class CharacterClass(BaseModel):
+    owner: int  # ID владельца персонажа
     name: str  # Название класса, например, "Barbarian"
     description: str  # Общая информация о классе
     hit_dice: int  # Например, "d12"
     skills: List[str]  # Умения, доступные классу
     primary_stats: List[str]  # Основные характеристики, например, ["Strength"]
-    saving_throws: List[str]  # Спасброски, например, ["Strength", "Constitution"]
+    saving_throws: List[str]  # Спасброски, напр., ["Strength", "Constitution"]
     armor_proficiencies: List[
         str
     ]  # Например, ["Light Armor", "Medium Armor", "Shields"]
-    weapon_proficiencies: List[str]  # Например, ["Simple Weapons", "Martial Weapons"]
+    weapon_proficiencies: List[str]  # Например, ["Simple Weapons"]
     starting_equipment: List[str]  # Базовая экипировка
     abilities: List[Ability]  # Стартовые способности
     features: List[Feature]  # Особенности класса
