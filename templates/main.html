@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DND Project FastAPI</title>
+    
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="navbar-nav">
+            <a class="navbar-brand" href="/"><h1>DND</h1></a>
+</header>
+<div class="container-fluid">
+    {% block crud_container %}
+    {% endblock %}
+</div>
+</body>
+</html>

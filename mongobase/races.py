@@ -1,4 +1,4 @@
-from schemas import AbilityScoreBonus, CharacterRace, RacialTrait
+from mongobase.schemas import AbilityScoreBonus, CharacterRace, RacialTrait
 
 # Бонусы характеристик
 

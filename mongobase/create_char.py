@@ -1,34 +1,19 @@
 from typing import List
-from mongo_config import characters, classes, races
-from rules import modificators, proficiency_bonuses
-from schemas import Character, SkillProficiencies, Stats
-
-# from races import halfling, half_orc, half_elf, dwarf
+from mongobase.mongo_config import characters, classes, races
+from mongobase.rules import modificators, proficiency_bonuses
+from mongobase.schemas import Character, SkillProficiencies, Stats
 
 
 def get_classes() -> List:
     '''Get all avialable char classes from database'''
-    all_classes = [char_class["name"] for char_class in classes.find()]
+    all_classes = [char_class for char_class in classes.find()]
     return all_classes
 
 
 def get_races() -> List:
     '''Get all avialable char races from database'''
-    all_rases = [race["name"] for race in races.find()]
+    all_rases = [race for race in races.find()]
     return all_rases
-
-
-# classes.insert_many([rogue_class.model_dump(by_alias=True),
-#                      cleric_class.model_dump(by_alias=True)])
-
-# races.insert_many([halfling.model_dump(by_alias=True),
-#                      half_orc.model_dump(by_alias=True),
-#                      half_elf.model_dump(by_alias=True),
-#                   dwarf.model_dump(by_alias=True)],
-#                   )
-
-# with open("example1.json", "r", encoding="utf-8") as file:
-#     char = json.load(file)
 
 
 def create_char(char: dict):

@@ -1,4 +1,4 @@
-from schemas import Ability, CharacterClass, Feature, Subclass
+from mongobase.schemas import Ability, CharacterClass, Feature, Subclass
 
 cleric_class = CharacterClass(
     name="Cleric",

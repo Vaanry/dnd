@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<title>Create Character</title>
+
+<form action="/submit" method="post">
+    <label for="username">Имя персонажа:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <label for="dropdown">Выберите класс:</label>
+    <select name="dropdown" id="dropdown">
+        {% for class in all_classes %}
+            <option value="{{ class.name }}">{{ class.name }}</option>
+            <p>{{ class.description }}</p>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="dropdown">Выберите расу:</label>
+    <select name="dropdown" id="dropdown">
+        {% for race in all_races %}
+            <option value="{{ race.name }}">{{ race.name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <button type="submit">Отправить</button>
+</form>
+
+{% endblock %}
