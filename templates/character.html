@@ -4,49 +4,52 @@
 <title>Create Character</title>
 
 <script>
-    function updateDescription() {
+    function updateClassDescription() {
         let classSelect = document.getElementById("classDropdown");
         let selectedOption = classSelect.options[classSelect.selectedIndex];
         let descriptionDiv = document.getElementById("classDescription");
         let description = selectedOption.getAttribute("data-description");
-        // Получаем выбранный класс
-        let selectedClass = classSelect.value;
 
-        // console.log(jsonclass);
-        // alert(description);
-        // Описание всех классов (передано из Jinja2 в виде JSON)
-        
-        // let descriptions = JSON.parse('{{ descriptions  }}');
-
-        // Обновляем описание (или оставляем текст по умолчанию)
         descriptionDiv.textContent = description || "Выберите класс, чтобы увидеть описание";
-        document.getElementById("classDropdown").addEventListener("change", updateDescription);
+        document.getElementById("classDropdown").addEventListener("change", updateClassDescription);
+    }
+    function updateRaceDescription() {
+        let raceSelect = document.getElementById("raceDropdown");
+        let selectedOption = raceSelect.options[raceSelect.selectedIndex];
+        let descriptionDiv = document.getElementById("raceDescription");
+        let description = selectedOption.getAttribute("data-description");
+        descriptionDiv.textContent = description || "Выберите расу, чтобы увидеть описание";
+        document.getElementById("raceDropdown").addEventListener("change", updateRaceDescription);
     }
 </script>
 
-<form action="/submit" method="post"> 
+<form action="/submit" method="post">
     <label for="username">Имя персонажа:</label>
     <input type="text" id="name" name="name" required>
     <br>
 
     <label for="classDropdown">Выберите класс:</label>
-    <select name="class_name" id="classDropdown" onchange="updateDescription()">
+    <select name="class_name" id="classDropdown" onchange="updateClassDescription()">
         {% for class in all_classes %}
-            <option value="{{ class.name }}" data-description="{{ class.description }}">{{ class.name }}</option>
+        <option value="{{ class.name }}" data-description="{{ class.description }}">{{ class.name }}</option>
         {% endfor %}
     </select>
 
-    <p><strong>Описание:</strong></p>
+    <p><strong>Описание класса:</strong></p>
     <div id="classDescription">Выберите класс, чтобы увидеть описание</div>
 
     <br>
 
     <label for="raceDropdown">Выберите расу:</label>
-    <select name="race_name" id="raceDropdown">
+    <select name="race_name" id="raceDropdown" onchange="updateRaceDescription()">
         {% for race in all_races %}
-            <option value="{{ race.name }}">{{ race.name }}</option>
+        <option value="{{ race.name }}" data-description="{{ race.description }}">{{ race.name }}</option>
         {% endfor %}
     </select>
+    <p><strong>Описание расы:</strong></p>
+    <div id="raceDescription">Выберите расу, чтобы увидеть описание</div>
+
+    <br>
     <br>
 
     <button type="submit">Отправить</button>
