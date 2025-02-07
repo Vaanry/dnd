@@ -1,3 +1,4 @@
+import json 
 from fastapi import APIRouter
 from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
@@ -13,9 +14,8 @@ router.mount("/static", StaticFiles(directory="static"), name="characters")
 
 @router.get("/")
 async def create(request: Request):
-    all_classes = get_classes()
+    all_classes = [class_ for class_ in get_classes()]
     all_races = get_races()
-
     return templates.TemplateResponse(
         "character.html", {"request": request, "all_classes": all_classes, "all_races": all_races}
     )

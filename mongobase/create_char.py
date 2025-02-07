@@ -2,11 +2,13 @@ from typing import List
 from mongobase.mongo_config import characters, classes, races
 from mongobase.rules import modificators, proficiency_bonuses
 from mongobase.schemas import Character, SkillProficiencies, Stats
+from bson import json_util
+import json
 
 
 def get_classes() -> List:
     '''Get all avialable char classes from database'''
-    all_classes = [char_class for char_class in classes.find()]
+    all_classes = [json.loads(json_util.dumps(char_class)) for char_class in classes.find()]
     return all_classes
 
 
