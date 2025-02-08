@@ -1,25 +1,29 @@
+import json
 from typing import List
+
+from bson import json_util
+
 from mongobase.mongo_config import characters, classes, races
 from mongobase.rules import modificators, proficiency_bonuses
 from mongobase.schemas import Character, SkillProficiencies, Stats
-from bson import json_util
-import json
 
 
 def get_classes() -> List:
-    '''Get all avialable char classes from database'''
-    all_classes = [json.loads(json_util.dumps(char_class)) for char_class in classes.find()]
+    """Get all avialable char classes from database"""
+    all_classes = [
+        json.loads(json_util.dumps(char_class)) for char_class in classes.find()
+    ]
     return all_classes
 
 
 def get_races() -> List:
-    '''Get all avialable char races from database'''
+    """Get all avialable char races from database"""
     all_rases = [race for race in races.find()]
     return all_rases
 
 
 def create_char(char: dict):
-    '''Takes a dict, create Character and insert it in database'''
+    """Takes a dict, create Character and insert it in database"""
     character_class = classes.find_one({"name": char["character_class"]})
     character_race = races.find_one({"name": char["race"]})
 
@@ -36,10 +40,8 @@ def create_char(char: dict):
         wisdom=char["stats"]["Wisdom"],
         charisma=char["stats"]["Charisma"],
     )
-    skills = SkillProficiencies(proficient=character_class["skills"][:2],
-                                other=[])
-    hp = character_class["hit_dice"] + modificators[char["stats"]
-                                                    ["Constitution"]]
+    skills = SkillProficiencies(proficient=character_class["skills"][:2], other=[])
+    hp = character_class["hit_dice"] + modificators[char["stats"]["Constitution"]]
 
     character = Character(
         owner=char["owner"],

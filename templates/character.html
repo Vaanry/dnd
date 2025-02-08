@@ -21,20 +21,12 @@
         document.getElementById("raceDropdown").addEventListener("change", updateRaceDescription);
     }
 </script>
-
-<form action="/submit" method="post">
+{% if choose=="race" %}
+<form action="/character/class/" method="post">
     <div class="character-creation">
         <div class="left-panel">
             <label for="username">Имя персонажа:</label>
             <input type="text" id="name" name="name" placeholder="Введите имя" required>
-            <label for="classDropdown">Класс:</label>
-            <select name="class_name" id="classDropdown" onchange="updateClassDescription()"
-                onclick="updateClassDescription()">
-                {% for class in all_classes %}
-                <option value="{{ class.name }}" data-description="{{ class.description }}">{{ class.name }}
-                </option>
-                {% endfor %}
-            </select>
             <label for="raceDropdown">Раса:</label>
             <select name="race_name" id="raceDropdown" onchange="updateRaceDescription()"
                 onclick="updateRaceDescription()">
@@ -45,18 +37,39 @@
             </select>
         </div>
         <div class="right-panel" id="description-container">
-            <p>Выберите расу или класс, чтобы увидеть описание.</p>
+            <p>Выберите расу, чтобы увидеть описание.</p>
             <div class="container-description">
-                <p><strong>Описание класса:</strong></p>
-                <div id="classDescription"></div>
                 <p><strong>Описание расы:</strong></p>
                 <div id="raceDescription"></div>
             </div>
         </div>
     </div>
-    <button type="submit">Отправить</button>
+    <button type="submit">Далее</button>
 </form>
-
+{% else %}
+<form action="/character/next/" method="post">
+    <div class="character-creation">
+        <div class="left-panel">
+            <label for="classDropdown">Класс:</label>
+            <select name="class_name" id="classDropdown" onchange="updateClassDescription()"
+                onclick="updateClassDescription()">
+                {% for class in all_classes %}
+                <option value="{{ class.name }}" data-description="{{ class.description }}">{{ class.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="right-panel" id="description-container">
+            <p>Выберите класс, чтобы увидеть описание.</p>
+            <div class="container-description">
+                <p><strong>Описание класса:</strong></p>
+                <div id="classDescription"></div>
+            </div>
+        </div>
+    </div>
+    <button type="submit">Далее</button>
+</form>
+{% endif %}
 
 
 
