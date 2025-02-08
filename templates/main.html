@@ -13,16 +13,24 @@
 
 <body>
     <header>
-        <nav class="navbar">
-            <div class="navbar-nav">
-                <a class="navbar-brand" href="/">
-                    <h1>DND</h1>
-                </a>
+        <!-- <nav class="navbar"> -->
+        <div class="logo"><a href="/">Логотип</a></div>
+        <div class="user-options">
+            <a href="/">Регистрация</a> | <a href="/">Вход</a>
+            <div class="burger-menu">☰</div>
+        </div>
     </header>
-    <div class="container-fluid">
-        {% block crud_container %}
-        {% endblock %}
-    </div>
+    <main>
+        <div class="container">
+            <h1>Заголовок видимый везде</h1>
+            <div class="container-fluid">
+                {% block crud_container %}
+                {% endblock %}
+            </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 О нас | Контакты | Политика конфиденциальности</p>
+    </footer>
 </body>
 
 </html>
