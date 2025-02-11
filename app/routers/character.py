@@ -42,7 +42,7 @@ async def choose_subrace(
 async def create_class(
     request: Request,
     name: str = Form(...),
-    race_name: str = Form(...),
+    class_name: str = Form(...),
 ):
     """Choose class"""
     all_classes = get_classes()
