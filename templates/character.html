@@ -12,21 +12,98 @@
         descriptionDiv.textContent = description || "Выберите класс, чтобы увидеть описание";
         document.getElementById("classDropdown").addEventListener("change", updateClassDescription);
     }
+
     function updateRaceDescription() {
-        let raceSelect = document.getElementById("raceDropdown");
-        let selectedOption = raceSelect.options[raceSelect.selectedIndex];
-        let descriptionDiv = document.getElementById("raceDescription");
-        let description = selectedOption.getAttribute("data-description");
-        descriptionDiv.textContent = description || "Выберите расу, чтобы увидеть описание";
-        document.getElementById("raceDropdown").addEventListener("change", updateRaceDescription);
+        let dropdown = document.getElementById("raceDropdown");
+        let selectedOption = dropdown.options[dropdown.selectedIndex];
+
+        let details = document.getElementById("raceDetails");
+        let defaultMessage = document.getElementById("defaultMessage");
+
+        if (selectedOption.value) {
+            // Показать контейнер с деталями
+            defaultMessage.style.display = "none";
+            details.style.display = "block";
+
+            document.getElementById("raceName").textContent = selectedOption.value;
+            document.getElementById("raceDescription").textContent = selectedOption.getAttribute("data-description");
+            document.getElementById("raceSpeed").textContent = "Скорость: " + selectedOption.getAttribute("data-speed");
+
+            // Обновление способностей
+            let abilities = JSON.parse(selectedOption.getAttribute("data-abilities") || "[]");
+            let abilitiesContainer = document.getElementById("raceAbilities");
+            abilitiesContainer.innerHTML = "<strong>Бонусы характеристик:</strong>";
+            abilities.forEach(ability_name => {
+                abilitiesContainer.innerHTML += `<p>${ability_name.ability}: ${ability_name.bonus}</p>`;
+            });
+
+            // Обновление языков
+            let languages = JSON.parse(selectedOption.getAttribute("data-languages") || "[]");
+            let languagesContainer = document.getElementById("raceLanguages");
+            languagesContainer.innerHTML = "<strong>Языки:</strong>";
+            languages.forEach(languages => {
+                languagesContainer.innerHTML += `<p>${languages}</p>`;
+            });
+
+            // Обновление черт
+            let traits = JSON.parse(selectedOption.getAttribute("data-traits") || "[]");
+            let traitsContainer = document.getElementById("raceTraits");
+            traitsContainer.innerHTML = "<strong>Черты:</strong>";
+            traits.forEach(trait => {
+                traitsContainer.innerHTML += `<p>${trait.name}: ${trait.description}</p>`;
+            });
+        } else {
+            // Если раса не выбрана, показать сообщение по умолчанию
+            details.style.display = "none";
+            defaultMessage.style.display = "block";
+        }
     }
+
     function updateSubRaceDescription() {
-        let raceSelect = document.getElementById("subraceDropdown");
-        let selectedOption = raceSelect.options[raceSelect.selectedIndex];
-        let descriptionDiv = document.getElementById("subraceDescription");
-        let description = selectedOption.getAttribute("data-description");
-        descriptionDiv.textContent = description || "Выберите подрасу, чтобы увидеть описание";
-        document.getElementById("subraceDropdown").addEventListener("change", updateSubRaceDescription);
+        let dropdown = document.getElementById("subraceDropdown");
+        let selectedOption = dropdown.options[dropdown.selectedIndex];
+
+        let descriptionContainer = document.getElementById("description-container");
+        let details = document.getElementById("subraceDetails");
+        let defaultMessage = document.getElementById("defaultMessage");
+
+        if (selectedOption.value) {
+            // Показать контейнер с деталями
+            defaultMessage.style.display = "none";
+            details.style.display = "block";
+
+            document.getElementById("subraceName").textContent = selectedOption.value;
+            document.getElementById("subraceDescription").textContent = selectedOption.getAttribute("data-description");
+            document.getElementById("subraceSpeed").textContent = "Скорость: " + selectedOption.getAttribute("data-speed");
+
+            // Обновление способностей
+            let abilities = JSON.parse(selectedOption.getAttribute("data-abilities"));
+            let abilitiesContainer = document.getElementById("subraceAbilities");
+            abilitiesContainer.innerHTML = "<strong>Бонусы характеристик:</strong>";
+            abilities.forEach(ability_name => {
+                abilitiesContainer.innerHTML += `<p>${ability_name.ability}: ${ability_name.bonus}</p>`;
+            });
+
+            // Обновление языков
+            let languages = JSON.parse(selectedOption.getAttribute("data-languages"));
+            let languagesContainer = document.getElementById("subraceLanguages");
+            languagesContainer.innerHTML = "<strong>Языки:</strong>";
+            languages.forEach(language => {
+                languagesContainer.innerHTML += `<p>${language}</p>`;
+            });
+
+            // Обновление черт
+            let traits = JSON.parse(selectedOption.getAttribute("data-traits"));
+            let traitsContainer = document.getElementById("subraceTraits");
+            traitsContainer.innerHTML = "<strong>Черты:</strong>";
+            traits.forEach(trait => {
+                traitsContainer.innerHTML += `<p>${trait.name}: ${trait.description}</p>`;
+            });
+        } else {
+            // Если подраса не выбрана, показать сообщение по умолчанию
+            details.style.display = "none";
+            defaultMessage.style.display = "block";
+        }
     }
 </script>
 {% if choose=="race" %}
@@ -36,20 +113,34 @@
         <div class="left-panel">
             <label for="username">Имя персонажа:</label>
             <input type="text" id="name" name="name" placeholder="Введите имя" required>
+
             <label for="raceDropdown">Раса:</label>
             <select name="race_name" id="raceDropdown" onchange="updateRaceDescription()"
                 onclick="updateRaceDescription()">
+                <option value="" selected disabled>Выберите расу</option>
                 {% for race in all_races %}
-                <option value="{{ race.name }}" data-description="{{ race.description }}">{{ race.name }}
+                <option value="{{ race.name }}" data-description="{{ race.description | default('Нет описания') }}"
+                    data-abilities='{{ (race.ability_score_bonuses or []) | tojson | safe }}'
+                    data-speed="{{ race.speed | default(0) }}"
+                    data-languages='{{ (race.languages or []) | tojson | safe }}'
+                    data-traits='{{ (race.traits or []) | tojson | safe }}'>
+                    {{ race.name }}
                 </option>
                 {% endfor %}
             </select>
         </div>
+
         <div class="right-panel" id="description-container">
-            <p>Выберите расу, чтобы увидеть описание.</p>
-            <div class="container-description">
-                <p><strong>Описание расы:</strong></p>
+            <p id="defaultMessage">Выберите расу, чтобы увидеть описание.</p>
+            <div id="raceDetails" style="display: none;">
+                <p><strong id="raceName"></strong></p>
                 <div id="raceDescription"></div>
+                <br>
+                <div id="raceAbilities"></div>
+                <div id="raceSpeed"></div>
+                <br>
+                <div id="raceLanguages"></div>
+                <div id="raceTraits"></div>
             </div>
         </div>
     </div>
@@ -60,20 +151,32 @@
     <h1>Заголовок видимый при выборе подрасы</h1>
     <div class="character-creation">
         <div class="left-panel">
-            <label for="classDropdown">Подраса:</label>
+            <label for="subraceDropdown">Подраса:</label>
             <select name="subrace_name" id="subraceDropdown" onchange="updateSubRaceDescription()"
                 onclick="updateSubRaceDescription()">
+                <option value="" selected disabled>Выберите подрасу</option>
                 {% for subrace in subraces %}
-                <option value="{{ subrace.name }}" data-description="{{ subrace.description }}">{{ subrace.name }}
+                <option value="{{ subrace.name }}" data-description="{{ subrace.description }}"
+                    data-abilities='{{ subrace.ability_score_bonuses | tojson | safe }}'
+                    data-speed="{{ subrace.speed }}" data-languages='{{ subrace.languages | tojson | safe }}'
+                    data-traits='{{ subrace.traits | tojson | safe }}'>
+                    {{ subrace.name }}
                 </option>
                 {% endfor %}
             </select>
         </div>
+
         <div class="right-panel" id="description-container">
-            <p>Выберите подрасу, чтобы увидеть описание.</p>
-            <div class="container-description">
-                <p><strong>Описание подрасы:</strong></p>
+            <p id="defaultMessage">Выберите подрасу, чтобы увидеть описание.</p>
+            <div id="subraceDetails" style="display: none;">
+                <p><strong id="subraceName"></strong></p>
                 <div id="subraceDescription"></div>
+                <br>
+                <div id="subraceAbilities"></div>
+                <div id="subraceSpeed"></div>
+                <br>
+                <div id="subraceLanguages"></div>
+                <div id="subraceTraits"></div>
             </div>
         </div>
     </div>
