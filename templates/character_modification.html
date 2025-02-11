@@ -3,32 +3,63 @@
 {% block crud_container %}
 
 <style>
+    /* Стилизация контейнера с навыками */
     .skill-label {
         display: flex;
         align-items: center;
         gap: 10px;
-        height: 5px;
         /* Отступ между названием и чекбоксом */
     }
 
     .skill-name {
         min-width: 150px;
-        /* Ширина колонки для названий */
+        /* Фиксированная ширина названий */
         text-align: left;
+    }
+
+    /* Модальное окно */
+    .modal {
+        display: none;
+        /* Скрыто по умолчанию */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Затемнение фона */
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Контент модального окна */
+    .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Кнопка в модальном окне */
+    .modal-content button {
+        margin-top: 15px;
+        padding: 8px 20px;
+        border: none;
+        background: #007bff;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .modal-content button:hover {
+        background: #0056b3;
     }
 </style>
 
-<!-- <title>Create Character</title>
-<form action="/character/dices" method="post">
-    <p>Выберите 2 навыка:</p>
-    {% for skill in skills %}
-    <label>
-        <input type="checkbox" name="selected_skills" value="{{ skill }}" onclick="limitSelection(this)">
-        {{ skill }}
-    </label><br>
-    {% endfor %}
-    <button type="submit">Выбрать</button>
-</form> -->
 <title>Create Character</title>
 <form action="/character/dices" method="post">
     <p>Выберите 2 навыка:</p>
@@ -38,7 +69,7 @@
             <label class="skill-label">
                 <span class="skill-name">{{ skill }}</span>
                 <input type="checkbox" name="selected_skills" value="{{ skill }}" data-description="{{ skill }}"
-                    onclick="limitSelection(this)">
+                    onclick="limitSelection(this); updateSkillDescription(this);">
             </label><br>
             {% endfor %}
         </div>
@@ -54,46 +85,55 @@
     <button type="submit" id="submitButton" disabled>Выбрать</button>
 </form>
 
-<script>
-    // function limitSelection(checkbox) {
-    //     let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
-    //     if (checkboxes.length > 2) {
-    //         checkbox.checked = false; // Сбрасываем выбор, если больше 2
-    //         alert("Можно выбрать только 2 навыка!");
-    //     }
-    // }
+<!-- Модальное окно -->
+<div id="customModal" class="modal">
+    <div class="modal-content">
+        <p id="modalMessage">Можно выбрать только 2 навыка!</p>
+        <button onclick="closeModal()">OK</button>
+    </div>
+</div>
 
+<script>
     function limitSelection(checkbox) {
         let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
-        let details = document.getElementById("skillDetails");
-        let defaultMessage = document.getElementById("defaultMessage");
         let submitButton = document.getElementById("submitButton");
 
         if (checkboxes.length > 2) {
-            checkbox.checked = false;
-            alert("Можно выбрать только 2 навыка!");
+            checkbox.checked = false; // Отменяем выбор
+            showModal("Можно выбрать только 2 навыка!"); // Показываем предупреждение
             return;
         }
 
         // Разблокировать кнопку, если выбрано ровно 2 навыка, иначе заблокировать
         submitButton.disabled = checkboxes.length !== 2;
+    }
 
-        if (checkboxes.length === 1) {
-            let selectedOption = checkboxes[0];
-            defaultMessage.style.display = "none";
+    function updateSkillDescription(checkbox) {
+        let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
+        let details = document.getElementById("skillDetails");
+        let defaultMessage = document.getElementById("defaultMessage");
+
+        if (checkboxes.length > 0) {
+            let selectedSkill = checkboxes[checkboxes.length - 1]; // Последний выбранный навык
+            document.getElementById("skillName").textContent = selectedSkill.value;
+            document.getElementById("skillDescription").textContent = selectedSkill.getAttribute("data-description");
+
             details.style.display = "block";
-            document.getElementById("skillName").textContent = selectedOption.value;
-            document.getElementById("skillDescription").textContent = selectedOption.getAttribute("data-description");
-        } else if (checkboxes.length === 2) {
-            let selectedOption = checkboxes[1]; // Второй выбранный
-            document.getElementById("skillName").textContent = selectedOption.value;
-            document.getElementById("skillDescription").textContent = selectedOption.getAttribute("data-description");
+            defaultMessage.style.display = "none";
         } else {
             details.style.display = "none";
             defaultMessage.style.display = "block";
         }
     }
 
+    function showModal(message) {
+        document.getElementById("modalMessage").textContent = message;
+        document.getElementById("customModal").style.display = "flex";
+    }
+
+    function closeModal() {
+        document.getElementById("customModal").style.display = "none";
+    }
 </script>
 
 
