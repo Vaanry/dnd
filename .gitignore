@@ -171,3 +171,5 @@ cython_debug/
 .pypirc
 example1.json
 example_char.json
+
+examples.py

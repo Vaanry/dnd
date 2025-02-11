@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from mongobase.create_char import get_classes, get_races
+from mongobase.create_char import get_classes, get_races, get_subraces
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter(prefix="/character", tags=["character"])
@@ -21,6 +21,20 @@ async def create_race(request: Request):
     return templates.TemplateResponse(
         "character.html",
         {"request": request, "all_races": all_races, "choose": "race"}
+    )
+
+
+@router.post("/race/", response_class=HTMLResponse)
+async def choose_subrace(
+    request: Request,
+    name: str = Form(...),
+    race_name: str = Form(...),
+):
+    """Choose subrace"""
+    subraces = get_subraces(race_name)
+    return templates.TemplateResponse(
+        "character.html",
+        {"request": request, "subraces": subraces, "choose": "subrace"},
     )
 
 

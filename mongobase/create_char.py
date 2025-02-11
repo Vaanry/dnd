@@ -13,18 +13,23 @@ from mongobase.races import elf, human, gnome, dwarf, half_elf, half_orc, halfli
 #races.insert_many([elf.model_dump(by_alias=True), human.model_dump(by_alias=True), gnome.model_dump(by_alias=True), dwarf.model_dump(by_alias=True), half_elf.model_dump(by_alias=True), half_orc.model_dump(by_alias=True), halfling.model_dump(by_alias=True), tiefling.model_dump(by_alias=True)])
 
 
-def get_classes() -> List:
-    """Get all avialable char classes from database"""
-    all_classes = [
-        json.loads(json_util.dumps(char_class)) for char_class in classes.find()
-    ]
-    return all_classes
-
 
 def get_races() -> List:
     """Get all avialable char races from database"""
-    all_rases = [race for race in races.find()]
+    all_rases = [race for race in races.find({}, {"name": 1, "description": 1, "_id": 0 })]
     return all_rases
+
+
+def get_subraces(race_name: str):
+    race = races.find_one({"name": race_name}, {"subraces": 1, "_id": 0 })
+    subraces = [subrace for subrace in race['subraces']]
+    return subraces
+
+
+def get_classes() -> List:
+    """Get all avialable char classes from database"""
+    all_classes = [class_ for class_ in classes.find({}, {"name": 1, "description": 1, "_id": 0 })]
+    return all_classes
 
 
 def create_char(char: dict):
