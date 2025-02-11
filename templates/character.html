@@ -23,6 +23,7 @@
 </script>
 {% if choose=="race" %}
 <form action="/character/class/" method="post">
+    <h1>Заголовок видимый при выборе расы</h1>
     <div class="character-creation">
         <div class="left-panel">
             <label for="username">Имя персонажа:</label>
@@ -48,6 +49,7 @@
 </form>
 {% else %}
 <form action="/character/next/" method="post">
+    <h1>Заголовок видимый при выборе класса</h1>
     <div class="character-creation">
         <div class="left-panel">
             <label for="classDropdown">Класс:</label>
