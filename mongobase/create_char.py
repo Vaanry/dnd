@@ -6,6 +6,11 @@ from bson import json_util
 from mongobase.mongo_config import characters, classes, races
 from mongobase.rules import modificators, proficiency_bonuses
 from mongobase.schemas import Character, SkillProficiencies, Stats
+from mongobase.classes import barbarian_class, cleric_class, rogue_class
+from mongobase.races import elf, human, gnome, dwarf, half_elf, half_orc, halfling, tiefling
+
+#classes.insert_many([barbarian_class.model_dump(by_alias=True), cleric_class.model_dump(by_alias=True), rogue_class.model_dump(by_alias=True)])
+#races.insert_many([elf.model_dump(by_alias=True), human.model_dump(by_alias=True), gnome.model_dump(by_alias=True), dwarf.model_dump(by_alias=True), half_elf.model_dump(by_alias=True), half_orc.model_dump(by_alias=True), halfling.model_dump(by_alias=True), tiefling.model_dump(by_alias=True)])
 
 
 def get_classes() -> List:
