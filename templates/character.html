@@ -4,13 +4,26 @@
 <title>Create Character</title>
 
 <script>
+
     function updateClassDescription() {
-        let classSelect = document.getElementById("classDropdown");
-        let selectedOption = classSelect.options[classSelect.selectedIndex];
-        let descriptionDiv = document.getElementById("classDescription");
-        let description = selectedOption.getAttribute("data-description");
-        descriptionDiv.textContent = description || "Выберите класс, чтобы увидеть описание";
-        document.getElementById("classDropdown").addEventListener("change", updateClassDescription);
+        let dropdown = document.getElementById("classDropdown");
+        let selectedOption = dropdown.options[dropdown.selectedIndex];
+
+        let details = document.getElementById("classDetails");
+        let defaultMessage = document.getElementById("defaultMessage");
+
+        if (selectedOption.value) {
+            // Показать контейнер с деталями
+            defaultMessage.style.display = "none";
+            details.style.display = "block";
+
+            document.getElementById("className").textContent = selectedOption.value;
+            document.getElementById("classDescription").textContent = selectedOption.getAttribute("data-description");
+        } else {
+            // Если класс не выбран, показать сообщение по умолчанию
+            details.style.display = "none";
+            defaultMessage.style.display = "block";
+        }
     }
 
     function updateRaceDescription() {
@@ -188,18 +201,20 @@
     <div class="character-creation">
         <div class="left-panel">
             <label for="classDropdown">Класс:</label>
-            <select name="class_name" id="classDropdown" onchange="updateClassDescription()"
-                onclick="updateClassDescription()">
+            <select name="class_name" id="classDropdown" onchange="updateClassDescription()">
+                <option value="" selected disabled>Выберите класс</option>
                 {% for class in all_classes %}
-                <option value="{{ class.name }}" data-description="{{ class.description }}">{{ class.name }}
+                <option value="{{ class.name }}" data-description="{{ class.description | default('Нет описания') }}">
+                    {{ class.name }}
                 </option>
                 {% endfor %}
             </select>
         </div>
+
         <div class="right-panel" id="description-container">
-            <p>Выберите класс, чтобы увидеть описание.</p>
-            <div class="container-description">
-                <p><strong>Описание класса:</strong></p>
+            <p id="defaultMessage">Выберите класс, чтобы увидеть описание.</p>
+            <div id="classDetails" style="display: none;">
+                <p><strong id="className"></strong></p>
                 <div id="classDescription"></div>
             </div>
         </div>

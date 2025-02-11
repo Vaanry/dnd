@@ -1,26 +1,99 @@
 {% extends "main.html" %}
 
 {% block crud_container %}
-<title>Create Character</title>
+
+<style>
+    .skill-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 5px;
+        /* Отступ между названием и чекбоксом */
+    }
+
+    .skill-name {
+        min-width: 150px;
+        /* Ширина колонки для названий */
+        text-align: left;
+    }
+</style>
+
+<!-- <title>Create Character</title>
 <form action="/character/dices" method="post">
     <p>Выберите 2 навыка:</p>
     {% for skill in skills %}
-        <label>
-            <input type="checkbox" name="selected_skills" value="{{ skill }}" onclick="limitSelection(this)">
-            {{ skill }}
-        </label><br>
+    <label>
+        <input type="checkbox" name="selected_skills" value="{{ skill }}" onclick="limitSelection(this)">
+        {{ skill }}
+    </label><br>
     {% endfor %}
     <button type="submit">Выбрать</button>
+</form> -->
+<title>Create Character</title>
+<form action="/character/dices" method="post">
+    <p>Выберите 2 навыка:</p>
+    <div class="character-creation">
+        <div class="left-panel">
+            {% for skill in skills %}
+            <label class="skill-label">
+                <span class="skill-name">{{ skill }}</span>
+                <input type="checkbox" name="selected_skills" value="{{ skill }}" data-description="{{ skill }}"
+                    onclick="limitSelection(this)">
+            </label><br>
+            {% endfor %}
+        </div>
+
+        <div class="right-panel" id="description-container">
+            <p id="defaultMessage">Выберите навык, чтобы увидеть описание.</p>
+            <div id="skillDetails" style="display: none;">
+                <p><strong id="skillName"></strong></p>
+                <div id="skillDescription"></div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" id="submitButton" disabled>Выбрать</button>
 </form>
 
 <script>
-function limitSelection(checkbox) {
-    let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
-    if (checkboxes.length > 2) {
-        checkbox.checked = false; // Сбрасываем выбор, если больше 2
-        alert("Можно выбрать только 2 навыка!");
+    // function limitSelection(checkbox) {
+    //     let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
+    //     if (checkboxes.length > 2) {
+    //         checkbox.checked = false; // Сбрасываем выбор, если больше 2
+    //         alert("Можно выбрать только 2 навыка!");
+    //     }
+    // }
+
+    function limitSelection(checkbox) {
+        let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
+        let details = document.getElementById("skillDetails");
+        let defaultMessage = document.getElementById("defaultMessage");
+        let submitButton = document.getElementById("submitButton");
+
+        if (checkboxes.length > 2) {
+            checkbox.checked = false;
+            alert("Можно выбрать только 2 навыка!");
+            return;
+        }
+
+        // Разблокировать кнопку, если выбрано ровно 2 навыка, иначе заблокировать
+        submitButton.disabled = checkboxes.length !== 2;
+
+        if (checkboxes.length === 1) {
+            let selectedOption = checkboxes[0];
+            defaultMessage.style.display = "none";
+            details.style.display = "block";
+            document.getElementById("skillName").textContent = selectedOption.value;
+            document.getElementById("skillDescription").textContent = selectedOption.getAttribute("data-description");
+        } else if (checkboxes.length === 2) {
+            let selectedOption = checkboxes[1]; // Второй выбранный
+            document.getElementById("skillName").textContent = selectedOption.value;
+            document.getElementById("skillDescription").textContent = selectedOption.getAttribute("data-description");
+        } else {
+            details.style.display = "none";
+            defaultMessage.style.display = "block";
+        }
     }
-}
+
 </script>
 
 
