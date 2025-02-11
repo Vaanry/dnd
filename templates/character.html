@@ -20,9 +20,17 @@
         descriptionDiv.textContent = description || "Выберите расу, чтобы увидеть описание";
         document.getElementById("raceDropdown").addEventListener("change", updateRaceDescription);
     }
+    function updateSubRaceDescription() {
+        let raceSelect = document.getElementById("subraceDropdown");
+        let selectedOption = raceSelect.options[raceSelect.selectedIndex];
+        let descriptionDiv = document.getElementById("subraceDescription");
+        let description = selectedOption.getAttribute("data-description");
+        descriptionDiv.textContent = description || "Выберите подрасу, чтобы увидеть описание";
+        document.getElementById("subraceDropdown").addEventListener("change", updateSubRaceDescription);
+    }
 </script>
 {% if choose=="race" %}
-<form action="/character/class/" method="post">
+<form action="/character/race/" method="post">
     <h1>Заголовок видимый при выборе расы</h1>
     <div class="character-creation">
         <div class="left-panel">
@@ -42,6 +50,30 @@
             <div class="container-description">
                 <p><strong>Описание расы:</strong></p>
                 <div id="raceDescription"></div>
+            </div>
+        </div>
+    </div>
+    <button type="submit">Далее</button>
+</form>
+{% elif choose=="subrace" %}
+<form action="/character/class/" method="post">
+    <h1>Заголовок видимый при выборе подрасы</h1>
+    <div class="character-creation">
+        <div class="left-panel">
+            <label for="classDropdown">Подраса:</label>
+            <select name="subrace_name" id="subraceDropdown" onchange="updateSubRaceDescription()"
+                onclick="updateSubRaceDescription()">
+                {% for subrace in subraces %}
+                <option value="{{ subrace.name }}" data-description="{{ subrace.description }}">{{ subrace.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="right-panel" id="description-container">
+            <p>Выберите подрасу, чтобы увидеть описание.</p>
+            <div class="container-description">
+                <p><strong>Описание подрасы:</strong></p>
+                <div id="subraceDescription"></div>
             </div>
         </div>
     </div>
