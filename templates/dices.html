@@ -1,114 +1,144 @@
 {% extends "main.html" %}
 
 {% block crud_container %}
-    <title>Броски Кубиков с Характеристиками</title>
-    <style>
-        .dice {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            background-color: #f0f0f0;
-            border: 2px solid #333;
-            margin: 10px;
-            text-align: center;
-            line-height: 50px;
-            font-size: 24px;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-        .button-container {
-            margin-top: 20px;
-        }
-        .result-container {
-            margin-top: 20px;
-        }
-        .result {
-            margin: 5px 0;
-        }
-        .input-container {
-            margin-top: 20px;
-        }
-        .input-container select {
-            margin-bottom: 10px;
-        }
-    </style>
+<title>Броски Кубиков с Характеристиками</title>
+<style>
+    .dice {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-color: #f0f0f0;
+        border: 2px solid #333;
+        margin: 10px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 5px;
+    }
+
+    .button-container {
+        margin-top: 20px;
+    }
+
+    .result-container {
+        margin-top: 20px;
+    }
+
+    .result {
+        margin: 5px 0;
+    }
+
+    .input-container {
+        display: block;
+        text-align: left;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .attribute-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 250px;
+        margin-top: 20px;
+    }
+
+    .attribute-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .attribute-label {
+        min-width: 150px;
+        flex: 1;
+        font-weight: bold;
+        gap: 10px;
+    }
+
+    .attribute-select {
+        width: 150px;
+        gap: 10px;
+        /* Компактный размер */
+        text-align: center;
+    }
+</style>
 </head>
+
 <body>
     <h1>Бросок 6 раз по 4 кубика с распределением по характеристикам</h1>
-    
-    <div id="dice-container">
-        <!-- Кубики будут отображаться здесь -->
-    </div>
-    
-    <div class="button-container">
-        <button onclick="rollDice()">Бросить кубики</button>
-    </div>
+    <div>
+        <div id="dice-container">
+            <p>Броски кубиков:</p>
+            <!-- Кубики будут отображаться здесь -->
+        </div>
 
-    <div class="result-container" id="result-container">
-        <!-- Результаты бросков будут отображаться здесь -->
-    </div>
+        <div class="button-container">
+            <button onclick="rollDice()">Бросить кубики</button>
+        </div>
 
-    <div class="input-container" id="input-container" style="display:none;">
-        <h2>Распределите результаты по характеристикам:</h2>
-        <form id="attribute-form">
-            <label for="strength">Сила:</label>
-            <select id="strength" name="strength" required>
-                <option value="">Выберите сумму для Силы</option>
-            </select><br>
+        <div class="result-container" id="result-container">
+            <!-- Результаты бросков будут отображаться здесь -->
+        </div>
 
-            <label for="dexterity">Ловкость:</label>
-            <select id="dexterity" name="dexterity" required>
-                <option value="">Выберите сумму для Ловкости</option>
-            </select><br>
+        <div class="input-container" id="input-container" style="display:none;">
+            <h2>Распределите характеристики:</h2>
+            <form id="attribute-form">
+                <div class="attribute-container">
+                    <div class="attribute-row">
+                        <span class="attribute-label">Сила:</span>
+                        <select id="strength" class="attribute-select" required></select>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Ловкость:</span>
+                        <select id="dexterity" class="attribute-select" required></select>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Интеллект:</span>
+                        <select id="intelligence" class="attribute-select" required></select>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Мудрость:</span>
+                        <select id="wisdom" class="attribute-select" required></select>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Харизма:</span>
+                        <select id="charisma" class="attribute-select" required></select>
+                    </div>
+                    <div class="attribute-row">
+                        <span class="attribute-label">Телосложение:</span>
+                        <select id="constitution" class="attribute-select" required></select>
+                    </div>
+                </div>
 
-            <label for="intelligence">Интеллект:</label>
-            <select id="intelligence" name="intelligence" required>
-                <option value="">Выберите сумму для Интеллекта</option>
-            </select><br>
-
-            <label for="wisdom">Мудрость:</label>
-            <select id="wisdom" name="wisdom" required>
-                <option value="">Выберите сумму для Мудрости</option>
-            </select><br>
-
-            <label for="charisma">Харизма:</label>
-            <select id="charisma" name="charisma" required>
-                <option value="">Выберите сумму для Харизмы</option>
-            </select><br>
-
-            <label for="constitution">Телосложение:</label>
-            <select id="constitution" name="constitution" required>
-                <option value="">Выберите сумму для Телосложения</option>
-            </select><br>
-
-            <button type="submit">Отправить</button>
-        </form>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
     </div>
 
     <script>
-    async function sendAttributes(attributes) {
-        try {
-            const response = await fetch('/character/add_dices/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(attributes), // Отправляем данные как JSON
-            });
+        async function sendAttributes(attributes) {
+            try {
+                const response = await fetch('/character/add_dices/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(attributes), // Отправляем данные как JSON
+                });
 
-            const result = await response.json();
-            if (response.ok) {
-                window.location.href = '/character/add_dices';
-            } else {
-                alert('Ошибка при отправке данных: ' + result.detail);
+                const result = await response.json();
+                if (response.ok) {
+                    window.location.href = '/character/add_dices';
+                } else {
+                    alert('Ошибка при отправке данных: ' + result.detail);
+                }
+            } catch (error) {
+                console.error('Ошибка при отправке данных:', error);
             }
-        } catch (error) {
-            console.error('Ошибка при отправке данных:', error);
         }
-    }
-
-        // Массив для хранения выбранных сумм
-        let selectedSums = [];
 
         // Функция для генерации случайного числа от 1 до 6
         function rollSingleDie() {
@@ -128,7 +158,7 @@
             diceValues.sort((a, b) => b - a);  // Сортируем по убыванию
             // Суммируем 3 наибольших
             sum = diceValues[0] + diceValues[1] + diceValues[2];
-            return {diceValues, sum};
+            return { diceValues, sum };
         }
 
         // Функция для броска 6 раз
@@ -139,9 +169,9 @@
 
             // Генерируем 6 бросков
             for (let i = 0; i < 6; i++) {
-                const {diceValues, sum} = rollSingleThrow();
-                allThrows.push({diceValues, sum});
-                
+                const { diceValues, sum } = rollSingleThrow();
+                allThrows.push({ diceValues, sum });
+
                 // Отображаем каждый бросок
                 const throwElement = document.createElement("div");
                 throwElement.classList.add("result");
@@ -169,83 +199,73 @@
         }
 
         // Функция для обновления выпадающих списков
-        function updateSelectOptions(allThrows) {
-            const selectElements = document.querySelectorAll("select");
+        let selectedSums = [];
+        let availableSums = [];
 
-            selectElements.forEach(selectElement => {
-                // Очищаем текущие опции
-                selectElement.innerHTML = '<option value="">Выберите сумму</option>';
+        function updateSelectOptions() {
+            document.querySelectorAll('.attribute-select').forEach(select => {
+                let currentValue = select.value;
+                select.innerHTML = '<option value="">--</option>';
 
-                allThrows.forEach(throwResult => {
-                    if (!selectedSums.includes(throwResult.sum)) {
-                        const option = document.createElement("option");
-                        option.value = throwResult.sum;
-                        option.textContent = throwResult.sum;
-                        selectElement.appendChild(option);
+                availableSums.forEach(sum => {
+                    if (!selectedSums.includes(sum) || sum == currentValue) {
+                        let option = document.createElement('option');
+                        option.value = sum;
+                        option.textContent = sum;
+                        select.appendChild(option);
                     }
                 });
+
+                select.value = currentValue; // Сохраняем выбор, если он есть
             });
         }
 
         // Функция для обработки изменений в выпадающем списке
-        function handleSelectChange(event) {
-            const selectedSum = parseInt(event.target.value);
-
-            // Добавляем выбранную сумму в массив
-            if (selectedSum && !selectedSums.includes(selectedSum)) {
-                selectedSums.push(selectedSum);
-            }
-
-            // Обновляем выпадающие списки
-            updateSelectOptions(allThrows);
+        function handleSelectChange() {
+            selectedSums = Array.from(document.querySelectorAll('.attribute-select'))
+                .map(select => parseInt(select.value) || null)
+                .filter(value => value !== null);
+            updateSelectOptions();
         }
 
-        // Функция для отображения формы распределения характеристик
         function showAttributeForm(allThrows) {
-            const inputContainer = document.getElementById("input-container");
-            inputContainer.style.display = "block";  // Показываем форму
+            document.getElementById("input-container").style.display = "block";
+            availableSums = allThrows.map(throwResult => throwResult.sum);
 
-            const form = document.getElementById("attribute-form");
-            const selectElements = [
-                document.getElementById("strength"),
-                document.getElementById("dexterity"),
-                document.getElementById("intelligence"),
-                document.getElementById("wisdom"),
-                document.getElementById("charisma"),
-                document.getElementById("constitution")
-            ];
-
-            // Добавляем доступные значения в выпадающие списки
-            updateSelectOptions(allThrows);
-
-            // Добавляем обработчики для всех селектов
-            selectElements.forEach(selectElement => {
-                selectElement.addEventListener("change", handleSelectChange);
+            document.querySelectorAll('.attribute-select').forEach(select => {
+                select.addEventListener("change", handleSelectChange);
             });
 
-            form.onsubmit = function(event) {
-                event.preventDefault();
-                const attributes = {
-                    strength: parseInt(document.getElementById("strength").value),
-                    dexterity: parseInt(document.getElementById("dexterity").value),
-                    intelligence: parseInt(document.getElementById("intelligence").value),
-                    wisdom: parseInt(document.getElementById("wisdom").value),
-                    charisma: parseInt(document.getElementById("charisma").value),
-                    constitution: parseInt(document.getElementById("constitution").value)
-                };
-
-                // Проверка, что все суммы распределены
-                const selectedSums = Object.values(attributes);
-                const allSums = allThrows.map(throwResult => throwResult.sum);
-                if (selectedSums.some(sum => !allSums.includes(sum))) {
-                    alert("Пожалуйста, выберите только суммы, полученные в бросках.");
-                    return;
-                }
-                sendAttributes(attributes);
-            };
+            updateSelectOptions();
         }
+
+        // Добавляем обработчики для всех селектов
+        selectElements.forEach(selectElement => {
+            selectElement.addEventListener("change", handleSelectChange);
+        });
+
+        form.onsubmit = function (event) {
+            event.preventDefault();
+            const attributes = {
+                strength: parseInt(document.getElementById("strength").value),
+                dexterity: parseInt(document.getElementById("dexterity").value),
+                intelligence: parseInt(document.getElementById("intelligence").value),
+                wisdom: parseInt(document.getElementById("wisdom").value),
+                charisma: parseInt(document.getElementById("charisma").value),
+                constitution: parseInt(document.getElementById("constitution").value)
+            };
+
+            // Проверка, что все суммы распределены
+            const selectedSums = Object.values(attributes);
+            const allSums = allThrows.map(throwResult => throwResult.sum);
+            if (selectedSums.some(sum => !allSums.includes(sum))) {
+                alert("Пожалуйста, выберите только суммы, полученные в бросках.");
+                return;
+            }
+            sendAttributes(attributes);
+        };
     </script>
-    
+
 </body>
 
 {% endblock %}
