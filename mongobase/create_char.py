@@ -16,13 +16,16 @@ from mongobase.races import elf, human, gnome, dwarf, half_elf, half_orc, halfli
 
 def get_races() -> List:
     """Get all avialable char races from database"""
-    all_rases = [race for race in races.find({}, {"name": 1, "description": 1, "_id": 0 })]
+    all_rases = [race for race in races.find({}, {"subraces": 0, "_id": 0 })]
     return all_rases
 
 
 def get_subraces(race_name: str):
     race = races.find_one({"name": race_name}, {"subraces": 1, "_id": 0 })
-    subraces = [subrace for subrace in race['subraces']]
+    if race['subraces'] is not None:
+        subraces = [subrace for subrace in race['subraces']]
+    else:
+        subraces = None
     return subraces
 
 
@@ -30,6 +33,11 @@ def get_classes() -> List:
     """Get all avialable char classes from database"""
     all_classes = [class_ for class_ in classes.find({}, {"name": 1, "description": 1, "_id": 0 })]
     return all_classes
+
+
+def get_class_skills(class_name: str):
+    character_skills = classes.find_one({"name": class_name}, {"skills": 1, "_id": 0})
+    return character_skills['skills']
 
 
 def create_char(char: dict):

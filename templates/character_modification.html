@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<title>Create Character</title>
+<form action="/character/dices" method="post">
+    <p>Выберите 2 навыка:</p>
+    {% for skill in skills %}
+        <label>
+            <input type="checkbox" name="selected_skills" value="{{ skill }}" onclick="limitSelection(this)">
+            {{ skill }}
+        </label><br>
+    {% endfor %}
+    <button type="submit">Выбрать</button>
+</form>
+
+<script>
+function limitSelection(checkbox) {
+    let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
+    if (checkboxes.length > 2) {
+        checkbox.checked = false; // Сбрасываем выбор, если больше 2
+        alert("Можно выбрать только 2 навыка!");
+    }
+}
+</script>
+
+
+{% endblock %}
