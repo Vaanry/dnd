@@ -41,8 +41,7 @@ async def choose_subrace(
 @router.post("/class/", response_class=HTMLResponse)
 async def create_class(
     request: Request,
-    name: str = Form(...),
-    class_name: str = Form(...),
+    subrace_name: str = Form(...),
 ):
     """Choose class"""
     all_classes = get_classes()
