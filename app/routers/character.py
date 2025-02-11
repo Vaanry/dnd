@@ -68,7 +68,7 @@ async def choose_skills(
     skills = get_class_skills(class_name)
     return templates.TemplateResponse(
         "character_modification.html",
-        {"request": request, "skills": skills},
+        {"request": request, "skills": skills, "class_name": class_name},
     )
 
 

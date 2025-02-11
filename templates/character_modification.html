@@ -8,12 +8,21 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        height: 3px;
         /* Отступ между названием и чекбоксом */
     }
 
     .skill-name {
         min-width: 150px;
         /* Фиксированная ширина названий */
+        text-align: left;
+    }
+
+
+    .skill-description {
+        background: #7b87a8;
+        padding: 10px;
+        border-radius: 5px;
         text-align: left;
     }
 
@@ -35,7 +44,7 @@
 
     /* Контент модального окна */
     .modal-content {
-        background: white;
+        background: rgb(24, 23, 23);
         padding: 20px;
         border-radius: 10px;
         width: 300px;
@@ -49,7 +58,7 @@
         padding: 8px 20px;
         border: none;
         background: #007bff;
-        color: white;
+        color: rgb(182, 177, 177);
         font-size: 16px;
         border-radius: 5px;
         cursor: pointer;
@@ -65,24 +74,29 @@
     <p>Выберите 2 навыка:</p>
     <div class="character-creation">
         <div class="left-panel">
+            <p id="defaultMessage">Скиллы класса {{class_name}} ...</p>
             {% for skill in skills %}
+            <br>
             <label class="skill-label">
                 <span class="skill-name">{{ skill }}</span>
                 <input type="checkbox" name="selected_skills" value="{{ skill }}" data-description="{{ skill }}"
-                    onclick="limitSelection(this); updateSkillDescription(this);">
-            </label><br>
+                    onclick="updateSkillDescription(this);">
+            </label>
+            <div class="skill-description" id="desc-{{ skill|replace(' ', '_') }}" style="display: none;">
+                <div>{{ skill }}</div>
+                <br>
+            </div>
             {% endfor %}
         </div>
-
         <div class="right-panel" id="description-container">
-            <p id="defaultMessage">Выберите навык, чтобы увидеть описание.</p>
+            <p id="defaultMessage">Здесь будет описание скиллов от происхождения...</p>
             <div id="skillDetails" style="display: none;">
                 <p><strong id="skillName"></strong></p>
                 <div id="skillDescription"></div>
             </div>
         </div>
     </div>
-    <button type="submit" id="submitButton" disabled>Выбрать</button>
+    <button type="submit" id="submitButton" onclick="validateSkills()">Выбрать</button>
 </form>
 
 <!-- Модальное окно -->
@@ -94,45 +108,39 @@
 </div>
 
 <script>
-    function limitSelection(checkbox) {
-        let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
-        let submitButton = document.getElementById("submitButton");
-
-        if (checkboxes.length > 2) {
-            checkbox.checked = false; // Отменяем выбор
-            showModal("Можно выбрать только 2 навыка!"); // Показываем предупреждение
-            return;
-        }
-
-        // Разблокировать кнопку, если выбрано ровно 2 навыка, иначе заблокировать
-        submitButton.disabled = checkboxes.length !== 2;
-    }
 
     function updateSkillDescription(checkbox) {
+        let skillId = "desc-" + checkbox.value.replace(/\s+/g, '_');
+        let descriptionBlock = document.getElementById(skillId);
+
+        descriptionBlock.style.display = checkbox.checked ? "block" : "none";
+    }
+
+    function validateSkills(event) {
         let checkboxes = document.querySelectorAll('input[name="selected_skills"]:checked');
-        let details = document.getElementById("skillDetails");
-        let defaultMessage = document.getElementById("defaultMessage");
 
-        if (checkboxes.length > 0) {
-            let selectedSkill = checkboxes[checkboxes.length - 1]; // Последний выбранный навык
-            document.getElementById("skillName").textContent = selectedSkill.value;
-            document.getElementById("skillDescription").textContent = selectedSkill.getAttribute("data-description");
-
-            details.style.display = "block";
-            defaultMessage.style.display = "none";
-        } else {
-            details.style.display = "none";
-            defaultMessage.style.display = "block";
+        if (checkboxes.length !== 2) {
+            showModal("Выберите ровно 2 навыка!");
+            return; // Останавливаем выполнение, форма не отправляется
         }
+
+        // Если выбрано 2 навыка, отправляем форму
+        document.getElementById("skillForm").submit();
     }
 
     function showModal(message) {
         document.getElementById("modalMessage").textContent = message;
         document.getElementById("customModal").style.display = "flex";
+
+        // Добавляем временный блокировщик кнопки, чтобы избежать двойного нажатия
+        document.getElementById("submitButton").disabled = true;
     }
 
     function closeModal() {
         document.getElementById("customModal").style.display = "none";
+
+        // Разблокировать кнопку после закрытия окна
+        document.getElementById("submitButton").disabled = false;
     }
 </script>
 
