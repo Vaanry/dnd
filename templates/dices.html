@@ -124,8 +124,8 @@
                     </div>
                     <div class="attribute-row">
                         <span class="attribute-label">Телосложение:</span>
-                        <input type="text" id="strength" name="strength" placeholder="Выберите стат..." maxlength="2"
-                            required>
+                        <input type="text" id="constitution" name="constitution" placeholder="Выберите стат..."
+                            maxlength="2" required>
                         <!-- <select id="constitution" class="attribute-select" onclick="updateSelectOptions()"
                             required></select> -->
                     </div>
@@ -250,6 +250,7 @@
             function rollDice() {
                 rollResults = [];
                 resultContainer.innerHTML = "";
+                clearAttributes();
 
                 for (let i = 0; i < 6; i++) {
                     let rolls = [roll1d6(), roll1d6(), roll1d6(), roll1d6()];
@@ -261,6 +262,11 @@
                 displayResults();
             }
 
+            function clearAttributes() {
+                attributes.forEach(input => input.value = "");
+                currentAttributeIndex = 0;
+            }
+
             function roll1d6() {
                 return Math.floor(Math.random() * 6) + 1;
             }
@@ -268,6 +274,9 @@
             function displayResults() {
                 let rollList = document.createElement("div");
                 rollList.classList.add("roll-list");
+                rollList.style.display = "flex";
+                rollList.style.gap = "10px";
+                rollList.style.justifyContent = "center";
 
                 rollResults.forEach((sum, index) => {
                     let rollElement = document.createElement("div");
@@ -281,6 +290,8 @@
                 });
 
                 resultContainer.appendChild(rollList);
+                resultContainer.style.display = "flex";
+                resultContainer.style.justifyContent = "center";
             }
 
             function handleDragStart(event) {
@@ -329,9 +340,6 @@
 
             rollButton.addEventListener("click", rollDice);
         });
-
-
-
 
     </script>
 
