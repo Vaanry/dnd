@@ -85,12 +85,31 @@
         /* Компактный размер */
         text-align: center;
     }
+
+    .container {
+        margin: 0 auto;
+        width: 50%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 10px;
+        outline: none;
+        box-shadow: 0 0 8px #51ccee96;
+    }
+
+    .container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .container ul li {
+        margin: 5px 0;
+    }
 </style>
 </head>
 
 <body>
     <h1>Бросок 6 раз по 4 кубика с распределением по характеристикам</h1>
-    <div>
+    <div class="container">
         <div id="dice-container" hidden>
             <p>Броски кубиков:</p>
             <!-- Кубики будут отображаться здесь -->
