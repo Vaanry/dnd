@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 
 {% block crud_container %}
+
 <title>Броски Кубиков с Характеристиками</title>
 <style>
     .dice {
@@ -83,33 +84,50 @@
             <!-- Результаты бросков будут отображаться здесь -->
         </div>
 
-        <div class="input-container" id="input-container" style="display:none;">
+        <div class="input-container" id="input-container">
             <h2>Распределите характеристики:</h2>
-            <form action="/character/add_dices/" method="post" id="attribute-form">
+            <form action="/character/add_dices/" method="post" id="attribute-form" autocomplete="on">
                 <div class="attribute-container">
                     <div class="attribute-row">
                         <span class="attribute-label">Сила:</span>
-                        <select id="strength" class="attribute-select" required></select>
+                        <input type="text" id="strength" name="strength" placeholder="Выберите стат..." maxlength="2"
+                            required>
+                        <!-- <select id="strength" class="attribute-select" onclick="updateSelectOptions()"
+                            required></select> -->
                     </div>
                     <div class="attribute-row">
                         <span class="attribute-label">Ловкость:</span>
-                        <select id="dexterity" class="attribute-select" required></select>
+                        <input type="text" id="dexterity" name="dexterity" placeholder="Выберите стат..." maxlength="2"
+                            required>
+                        <!-- <select id="dexterity" class="attribute-select" onclick="updateSelectOptions()"
+                            required></select> -->
                     </div>
                     <div class="attribute-row">
                         <span class="attribute-label">Интеллект:</span>
-                        <select id="intelligence" class="attribute-select" required></select>
+                        <input type="text" id="intelligence" name="intelligence" placeholder="Выберите стат..."
+                            maxlength="2" required>
+                        <!-- <select id="intelligence" class="attribute-select" onclick="updateSelectOptions()"
+                            required></select> -->
                     </div>
                     <div class="attribute-row">
                         <span class="attribute-label">Мудрость:</span>
-                        <select id="wisdom" class="attribute-select" required></select>
+                        <input type="text" id="wisdom" name="wisdom" placeholder="Выберите стат..." maxlength="2"
+                            required>
+                        <!-- <select id="wisdom" class="attribute-select" onclick="updateSelectOptions()" required></select> -->
                     </div>
                     <div class="attribute-row">
                         <span class="attribute-label">Харизма:</span>
-                        <select id="charisma" class="attribute-select" required></select>
+                        <input type="text" id="charisma" name="charisma" placeholder="Выберите стат..." maxlength="2"
+                            required>
+                        <!-- <select id="charisma" class="attribute-select" onclick="updateSelectOptions()"
+                            required></select> -->
                     </div>
                     <div class="attribute-row">
                         <span class="attribute-label">Телосложение:</span>
-                        <select id="constitution" class="attribute-select" required></select>
+                        <input type="text" id="strength" name="strength" placeholder="Выберите стат..." maxlength="2"
+                            required>
+                        <!-- <select id="constitution" class="attribute-select" onclick="updateSelectOptions()"
+                            required></select> -->
                     </div>
                 </div>
 
@@ -119,167 +137,105 @@
     </div>
 
     <script>
-        async function sendAttributes(attributes) {
-            try {
-                const response = await fetch('/character/add_dices/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(attributes), // Отправляем данные как JSON
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    window.location.href = '/character/add_dices';
-                } else {
-                    alert('Ошибка при отправке данных: ' + result.detail);
-                }
-            } catch (error) {
-                console.error('Ошибка при отправке данных:', error);
-            }
-        }
 
         // Функция для генерации случайного числа от 1 до 6
         function rollSingleDie() {
             return Math.floor(Math.random() * 6) + 1;
         }
 
-        // Функция для броска одного набора из 4 кубиков с суммированием 3 наибольших значений
+        // Функция для броска 4 кубиков с выбором 3 наибольших значений
         function rollSingleThrow() {
             let diceValues = [];
-            let sum = 0;
-            // Генерируем 4 значения
             for (let i = 0; i < 4; i++) {
-                const value = rollSingleDie();
-                diceValues.push(value);
+                diceValues.push(rollSingleDie());
             }
-            // Сортируем и отбрасываем наименьшее значение
-            diceValues.sort((a, b) => b - a);  // Сортируем по убыванию
-            // Суммируем 3 наибольших
-            sum = diceValues[0] + diceValues[1] + diceValues[2];
+            diceValues.sort((a, b) => b - a); // Сортируем по убыванию
+            let sum = diceValues[0] + diceValues[1] + diceValues[2]; // Сумма 3 наибольших
             return { diceValues, sum };
         }
 
-        // Функция для броска 6 раз
-        function rollDice() {
-            const allThrows = [];
-            const resultContainer = document.getElementById("result-container");
-            resultContainer.innerHTML = "";  // Очищаем контейнер результатов
+        // Объект с переменными для каждого броска
+        let assignedValues = {};
+        let selectedValues = {};
 
-            // Генерируем 6 бросков
+        // Функция броска 6 раз
+        function rollDice() {
+            assignedValues = {}; // Очищаем объект
+            const resultContainer = document.getElementById("result-container");
+            resultContainer.innerHTML = "";
+
             for (let i = 0; i < 6; i++) {
                 const { diceValues, sum } = rollSingleThrow();
-                allThrows.push({ diceValues, sum });
+                assignedValues[`attr${i}`] = sum; // Используем уникальные ключи
 
-                // Отображаем каждый бросок
+                // Отображаем бросок
                 const throwElement = document.createElement("div");
                 throwElement.classList.add("result");
-                throwElement.textContent = `Бросок ${i + 1}: ${diceValues.join(", ")} (Сумма 3 наибольших: ${sum})`;
+                throwElement.textContent = `Бросок ${i + 1}: ${diceValues.join(", ")} (Сумма: ${sum})`;
                 resultContainer.appendChild(throwElement);
             }
 
-            // Отображаем кубики
-            displayDice(allThrows);
-
-            // Показываем форму для распределения характеристик
-            showAttributeForm(allThrows);
+            console.log("Брошенные значения:", assignedValues);
         }
-
-        // Функция для отображения кубиков на странице
-        function displayDice(allThrows) {
-            const diceContainer = document.getElementById("dice-container");
-            diceContainer.innerHTML = "";  // Очищаем контейнер кубиков
-
-            allThrows.forEach((throwResult, index) => {
-                const diceRow = document.createElement("div");
-                diceRow.textContent = `Бросок ${index + 1}: ${throwResult.diceValues.join(", ")}`;
-                diceContainer.appendChild(diceRow);
-            });
-        }
-        // Массив доступных значений (все выпавшие числа)
-        let availableSums = [];
-        // Массив выбранных значений
-        let selectedSums = [];
 
         // Функция обновления выпадающих списков
         function updateSelectOptions() {
             document.querySelectorAll('.attribute-select').forEach(select => {
-                let currentValue = select.value;
-                select.innerHTML = '<option value="">--</option>'; // Очищаем список
+                let selectedValue = select.getAttribute("data-selected"); // Получаем предыдущее значение
 
-                // Подсчёт всех чисел, которые можно выбрать
-                let remainingNumbers = [...availableSums];
+                // Очищаем список и добавляем "--"
+                select.innerHTML = '';
+                let option = document.createElement('option');
+                option.value = '';
+                option.textContent = '--';
+                select.appendChild(option);
 
-                // Убираем уже выбранные числа (по одному разу)
-                selectedSums.forEach(selected => {
-                    let index = remainingNumbers.indexOf(selected);
-                    if (index !== -1) {
-                        remainingNumbers.splice(index, 1);
-                    }
-                });
-
-                // Добавляем доступные числа в выпадающий список
-                remainingNumbers.forEach(num => {
+                // Добавляем все доступные значения из assignedValues
+                Object.entries(assignedValues).forEach(([key, value]) => {
                     let option = document.createElement('option');
-                    option.value = num;
-                    option.textContent = num;
+                    option.value = key;
+                    option.textContent = String(value);
                     select.appendChild(option);
                 });
 
-                // Восстанавливаем текущее значение, если оно ещё доступно
-                if (remainingNumbers.includes(parseInt(currentValue))) {
-                    select.value = currentValue;
+                // Восстанавливаем выбранное значение
+                if (selectedValue && assignedValues[selectedValue] !== undefined) {
+                    select.value = selectedValue;
                 }
             });
+            //console.log(assignedValues);
         }
 
         // Функция обработки выбора значений
-        function handleSelectChange() {
-            selectedSums = Array.from(document.querySelectorAll('.attribute-select'))
-                .map(select => parseInt(select.value) || null)
-                .filter(value => value !== null);
+        function handleSelectChange(event) {
+            let select = event.target;
+            let previousKey = select.getAttribute("data-selected");
+            let selectedKey = select.value;
+
+            // Возвращаем предыдущее значение обратно в assignedValues
+            if (previousKey && previousKey in assignedValues) {
+                assignedValues[previousKey] = parseInt(select.querySelector(`option[value="${previousKey}"]`).textContent);
+            }
+
+            // Удаляем выбранное значение из assignedValues
+            if (selectedKey in assignedValues) {
+                selectedValues = selectedKey;
+                delete assignedValues[selectedKey];
+                console.log(selectedValues);
+            }
+
+            // Сохраняем выбранный ключ
+            select.setAttribute("data-selected", selectedKey);
 
             updateSelectOptions();
         }
 
-        // Функция инициализации списков
-        function showAttributeForm(allThrows) {
-            document.getElementById("input-container").style.display = "block";
-            availableSums = allThrows.map(throwResult => throwResult.sum); // Сохраняем все выпавшие числа
-
-            document.querySelectorAll('.attribute-select').forEach(select => {
-                select.addEventListener("change", handleSelectChange);
-            });
-
-            updateSelectOptions();
-        }
-
-        // Добавляем обработчики для всех селектов
-        selectElements.forEach(selectElement => {
-            selectElement.addEventListener("change", handleSelectChange);
+        // Добавляем обработчики событий
+        document.querySelectorAll('.attribute-select').forEach(select => {
+            select.addEventListener("change", handleSelectChange);
         });
 
-        form.onsubmit = function (event) {
-            event.preventDefault();
-            const attributes = {
-                strength: parseInt(document.getElementById("strength").value),
-                dexterity: parseInt(document.getElementById("dexterity").value),
-                intelligence: parseInt(document.getElementById("intelligence").value),
-                wisdom: parseInt(document.getElementById("wisdom").value),
-                charisma: parseInt(document.getElementById("charisma").value),
-                constitution: parseInt(document.getElementById("constitution").value)
-            };
 
-            // Проверка, что все суммы распределены
-            const selectedSums = Object.values(attributes);
-            const allSums = allThrows.map(throwResult => throwResult.sum);
-            if (selectedSums.some(sum => !allSums.includes(sum))) {
-                alert("Пожалуйста, выберите только суммы, полученные в бросках.");
-                return;
-            }
-            sendAttributes(attributes);
-        };
     </script>
 
 </body>
