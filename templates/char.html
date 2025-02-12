@@ -38,7 +38,10 @@
     <h3> {{ char_info.char_name }}</h3>
     <div class="char_main_info">
         <p>Раса: {{ char_info.char_race }}</p>
+        {% if char_info.char_subrace %}
         <p>Подраса: {{ char_info.char_subrace }}</p>
+        {% else%}<p></p>
+        {% endif %}
         <p>Класс: {{ char_info.char_class }}</p>
         <p>Уровень: 1 </p>
         <p>Опыт: 0 </p>

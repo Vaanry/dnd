@@ -15,7 +15,11 @@ def set_char_race(user_id: int, char_race: str):
 
 
 def set_char_subrace(user_id: int, char_subrace: str):
-    r.hset(user_id, "char_subrace", char_subrace)
+    print(char_subrace)
+    if char_subrace == None:
+        r.hset(user_id, "char_subrace", "None")
+    else:
+        r.hset(user_id, "char_subrace", char_subrace)
 
 
 def set_char_class(user_id: int, char_class: str):
@@ -40,7 +44,11 @@ def get_char_info(user_id: int) -> Dict:
 
     char_name = r.hget(user_id, "char_name").decode("UTF-8")
     char_race = r.hget(user_id, "char_race").decode("UTF-8")
-    char_subrace = r.hget(user_id, "char_subrace").decode("UTF-8")
+    char_subrace = r.hget(user_id, "char_subrace")
+    if char_subrace.decode("UTF-8") != "None":
+        char_subrace = char_subrace.decode("UTF-8")
+    else:
+        char_subrace = None
     char_class = r.hget(user_id, "char_class").decode("UTF-8")
 
     char_skills_encoded = r.smembers(user_skills)
@@ -59,4 +67,5 @@ def get_char_info(user_id: int) -> Dict:
         "char_skills": char_skills,
         "char_stats": char_stats,
     }
+    print(char_info)
     return char_info
