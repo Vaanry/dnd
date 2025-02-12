@@ -136,7 +136,7 @@
         </div>
     </div>
 
-    <script>
+    <!-- <script>
 
         // Функция для генерации случайного числа от 1 до 6
         function rollSingleDie() {
@@ -234,6 +234,103 @@
         document.querySelectorAll('.attribute-select').forEach(select => {
             select.addEventListener("change", handleSelectChange);
         });
+
+
+    </script> -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rollButton = document.querySelector("button[onclick='rollDice()']");
+            const resultContainer = document.getElementById("result-container");
+            const attributeForm = document.getElementById("attribute-form");
+            const attributes = document.querySelectorAll(".attribute-row input");
+            let rollResults = [];
+            let currentAttributeIndex = 0;
+
+            function rollDice() {
+                rollResults = [];
+                resultContainer.innerHTML = "";
+
+                for (let i = 0; i < 6; i++) {
+                    let rolls = [roll1d6(), roll1d6(), roll1d6(), roll1d6()];
+                    rolls.sort((a, b) => a - b);
+                    let sum = rolls[1] + rolls[2] + rolls[3];
+                    rollResults.push(sum);
+                }
+
+                displayResults();
+            }
+
+            function roll1d6() {
+                return Math.floor(Math.random() * 6) + 1;
+            }
+
+            function displayResults() {
+                let rollList = document.createElement("div");
+                rollList.classList.add("roll-list");
+
+                rollResults.forEach((sum, index) => {
+                    let rollElement = document.createElement("div");
+                    rollElement.classList.add("dice-result");
+                    rollElement.textContent = `Бросок ${index + 1}: ${sum}`;
+                    rollElement.draggable = true;
+                    rollElement.dataset.value = sum;
+                    rollElement.addEventListener("dragstart", handleDragStart);
+                    rollElement.addEventListener("dblclick", handleDoubleClick);
+                    rollList.appendChild(rollElement);
+                });
+
+                resultContainer.appendChild(rollList);
+            }
+
+            function handleDragStart(event) {
+                event.dataTransfer.setData("text/plain", event.target.dataset.value);
+                event.dataTransfer.setData("elementId", event.target.id);
+            }
+
+            attributes.forEach(input => {
+                input.setAttribute("readonly", true);
+                input.addEventListener("dragover", event => event.preventDefault());
+                input.addEventListener("drop", handleDrop);
+            });
+
+            function handleDrop(event) {
+                event.preventDefault();
+                let value = event.dataTransfer.getData("text/plain");
+                let elementId = event.dataTransfer.getData("elementId");
+
+                event.target.value = value;
+
+                let draggedElement = [...document.querySelectorAll(".dice-result")].find(el => el.dataset.value === value);
+                if (draggedElement) {
+                    draggedElement.remove();
+                }
+            }
+
+            function handleDoubleClick(event) {
+                if (currentAttributeIndex < attributes.length) {
+                    attributes[currentAttributeIndex].value = event.target.dataset.value;
+                    event.target.remove();
+                    currentAttributeIndex++;
+                }
+            }
+
+            attributeForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                if (validateForm()) {
+                    //alert("Распределение корректно!");
+                    this.submit();
+                }
+            });
+
+            function validateForm() {
+                return [...attributes].every(input => input.value.trim() !== "");
+            }
+
+            rollButton.addEventListener("click", rollDice);
+        });
+
+
 
 
     </script>
