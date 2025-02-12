@@ -103,18 +103,17 @@ async def auth_user(
         secure=False,
         path="/",
     )
-
-    return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
-            "message": "Успешный вход в систему!",
-        },
+  
+    return RedirectResponse(
+        url="/",
+        status_code=status.HTTP_302_FOUND,
+        headers=response.headers,
     )
 
 
 def get_token(request: Request):
     token = request.cookies.get("users_access_token")
+    print(f"🔍 Токен: {token}")  # Проверяем, какой токен получаем
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Token not found"

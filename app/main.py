@@ -12,9 +12,6 @@ from .config import settings
 
 templates = Jinja2Templates(directory="templates")
 
-templates.env.globals["is_authenticated"] = (
-    lambda request: hasattr(request.state, "user") and request.state.user is not None
-)
 
 app = FastAPI(title=settings.app_title)
 
@@ -23,15 +20,13 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class AuthMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        # Попытка получить текущего пользователя
+        token = request.cookies.get("users_access_token")
         try:
-            user = await get_current_user(
-                token=request.cookies.get("users_access_token")
-            )
+            user = await get_current_user(token)
             request.state.user = user
         except:
-            request.state.user = None  # Если токен недействителен или отсутствует
-
+            request.state.user = None
+        print(request.state.user)
         response = await call_next(request)
         return response
 

@@ -16,7 +16,7 @@
         <!-- <nav class="navbar"> -->
         <div class="logo"><a href="/"><img src="/static/images/logo.png"></img></a></div>
         <div class="user-options">
-            {% if is_authenticated(request) %}
+            {% if request.state.user %}
             <a href="/auth/logout">Выход</a>
             {% else %}
             <a href="/auth/registration">Регистрация</a> | <a href="/auth/login">Вход</a>
