@@ -70,7 +70,7 @@
 <body>
     <h1>Бросок 6 раз по 4 кубика с распределением по характеристикам</h1>
     <div>
-        <div id="dice-container">
+        <div id="dice-container" hidden>
             <p>Броски кубиков:</p>
             <!-- Кубики будут отображаться здесь -->
         </div>
@@ -85,7 +85,7 @@
 
         <div class="input-container" id="input-container" style="display:none;">
             <h2>Распределите характеристики:</h2>
-            <form id="attribute-form">
+            <form action="/character/add_dices/" method="post" id="attribute-form">
                 <div class="attribute-container">
                     <div class="attribute-row">
                         <span class="attribute-label">Сила:</span>
@@ -197,40 +197,56 @@
                 diceContainer.appendChild(diceRow);
             });
         }
-
-        // Функция для обновления выпадающих списков
-        let selectedSums = [];
+        // Массив доступных значений (все выпавшие числа)
         let availableSums = [];
+        // Массив выбранных значений
+        let selectedSums = [];
 
+        // Функция обновления выпадающих списков
         function updateSelectOptions() {
             document.querySelectorAll('.attribute-select').forEach(select => {
                 let currentValue = select.value;
-                select.innerHTML = '<option value="">--</option>';
+                select.innerHTML = '<option value="">--</option>'; // Очищаем список
 
-                availableSums.forEach(sum => {
-                    if (!selectedSums.includes(sum) || sum == currentValue) {
-                        let option = document.createElement('option');
-                        option.value = sum;
-                        option.textContent = sum;
-                        select.appendChild(option);
+                // Подсчёт всех чисел, которые можно выбрать
+                let remainingNumbers = [...availableSums];
+
+                // Убираем уже выбранные числа (по одному разу)
+                selectedSums.forEach(selected => {
+                    let index = remainingNumbers.indexOf(selected);
+                    if (index !== -1) {
+                        remainingNumbers.splice(index, 1);
                     }
                 });
 
-                select.value = currentValue; // Сохраняем выбор, если он есть
+                // Добавляем доступные числа в выпадающий список
+                remainingNumbers.forEach(num => {
+                    let option = document.createElement('option');
+                    option.value = num;
+                    option.textContent = num;
+                    select.appendChild(option);
+                });
+
+                // Восстанавливаем текущее значение, если оно ещё доступно
+                if (remainingNumbers.includes(parseInt(currentValue))) {
+                    select.value = currentValue;
+                }
             });
         }
 
-        // Функция для обработки изменений в выпадающем списке
+        // Функция обработки выбора значений
         function handleSelectChange() {
             selectedSums = Array.from(document.querySelectorAll('.attribute-select'))
                 .map(select => parseInt(select.value) || null)
                 .filter(value => value !== null);
+
             updateSelectOptions();
         }
 
+        // Функция инициализации списков
         function showAttributeForm(allThrows) {
             document.getElementById("input-container").style.display = "block";
-            availableSums = allThrows.map(throwResult => throwResult.sum);
+            availableSums = allThrows.map(throwResult => throwResult.sum); // Сохраняем все выпавшие числа
 
             document.querySelectorAll('.attribute-select').forEach(select => {
                 select.addEventListener("change", handleSelectChange);
