@@ -2,34 +2,65 @@
 
 {% block crud_container %}
 <title>Create Character</title>
+<style>
+    .container {
+        margin: 0 auto;
+        width: 50%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+    .container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .container ul li {
+        margin: 5px 0;
+    }
+
+    .char_main_info {
+        background-color: rgb(73, 118, 158);
+        margin: 10px 0;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+</style>
 
 
 <h2>Информация о персонаже</h2>
-<p>Имя персонажа: {{ char_info.char_name }}</p>
-<p>Раса: {{ char_info.char_race }}</p>
-<p>Подраса: {{ char_info.char_subrace }}</p>
-<p>Класс: {{ char_info.char_class }}</p>
+<div class="container">
+    <h3> {{ char_info.char_name }}</h3>
+    <div class="char_main_info">
+        <p>Раса: {{ char_info.char_race }}</p>
+        <p>Подраса: {{ char_info.char_subrace }}</p>
+        <p>Класс: {{ char_info.char_class }}</p>
+        <p>Уровень: 1 </p>
+        <p>Опыт: 0 </p>
+    </div>
 
-{% if char_info.char_skills %}
+    {% if char_info.char_skills %}
     <h3>Навыки персонажа:</h3>
-    <ul>
-        {% for skill in char_info.char_skills %}
+    <div class="char_main_info">
+        <ul>
+            {% for skill in char_info.char_skills %}
             <li>{{ skill }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Навыков нет.</p>
-{% endif %}
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Навыков нет.</p>
+        {% endif %}
+    </div>
 
-<h3>Характеристики персонажа:</h3>
-<ul>
-    {% for key, value in char_info.char_stats.items() %}
-        <li>{{ key }}: {{ value }}</li>
-    {% endfor %}
-</ul>
+    <h3>Характеристики персонажа:</h3>
+    <div class="char_main_info">
+        <ul>
+            {% for key, value in char_info.char_stats.items() %}
+            <li>{{ key }}: {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 
-
-
-
-
+</div>
 {% endblock %}
