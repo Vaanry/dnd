@@ -5,9 +5,12 @@ from fastapi.templating import Jinja2Templates
 
 from app.routers import main_router
 
-# from .config import settings
+from .config import settings
+
 templates = Jinja2Templates(directory="templates")
-app = FastAPI(title="DND")
+
+app = FastAPI(title=settings.app_title)
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
