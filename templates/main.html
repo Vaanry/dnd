@@ -16,8 +16,12 @@
         <!-- <nav class="navbar"> -->
         <div class="logo"><a href="/"><img src="/static/images/logo.png"></img></a></div>
         <div class="user-options">
-            <a href="/">Регистрация</a> | <a href="/">Вход</a>
+            {% if is_authenticated(request) %}
+            <a href="/auth/logout">Выход</a>
+            {% else %}
+            <a href="/auth/registration">Регистрация</a> | <a href="/auth/login">Вход</a>
             <div class="burger-menu">☰</div>
+            {% endif %}
         </div>
     </header>
     <main>

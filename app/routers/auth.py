@@ -3,13 +3,13 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Form, HTTPException, Response, status
 from fastapi.requests import Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.security import HTTPBasic, OAuth2PasswordBearer
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from jose import ExpiredSignatureError, JWTError, jwt
 from passlib.context import CryptContext
-from sqlalchemy import select, update
+from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db_depends import get_db
@@ -61,8 +61,19 @@ async def create_access_token(
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
+@router.get("/login/", response_class=HTMLResponse)
+async def login_form(request: Request):
+    """
+    Отображает HTML-форму для входа.
+    """
+    return templates.TemplateResponse(
+        "login.html", {"request": request, "is_registration": False}
+    )
+
+
 @router.post("/login/")
 async def auth_user(
+    request: Request,
     db: Annotated[AsyncSession, Depends(get_db)],
     response: Response,
     username: str = Form(...),
@@ -93,7 +104,13 @@ async def auth_user(
         path="/",
     )
 
-    return {"access_token": access_token, "token_type": "bearer"}
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "message": "Успешный вход в систему!",
+        },
+    )
 
 
 def get_token(request: Request):
@@ -164,12 +181,9 @@ async def registration_confirm(
 
     hash_password = bcrypt_context.hash(user.password)
     await db.execute(
-        update(Users)
-        .where(Users.username == username)
-        .values(
-            hashed_password=hash_password,
-        )
+        insert(Users), [{"username": username, "hashed_password": hash_password}]
     )
+
     await db.commit()
     return templates.TemplateResponse(
         "index.html",
@@ -177,4 +191,14 @@ async def registration_confirm(
             "request": request,
             "message": "Успешная регистрация! Вы можете зайти со своим логином и паролем.",
         },
+    )
+
+
+@router.get("/logout/")
+async def logout_user(response: Response):
+    response.delete_cookie(key="users_access_token")
+    return RedirectResponse(
+        url="/",
+        status_code=status.HTTP_302_FOUND,
+        headers=response.headers,
     )
