@@ -96,16 +96,28 @@ async def rolling_dices(
 
 
 @router.post("/add_dices/", response_class=JSONResponse)
-async def add_dices(stats: Stats):
+async def add_dices(
+    request: Request,
+    strength: str = Form(...),
+    dexterity: str = Form(...),
+    intelligence: str = Form(...),
+    wisdom: str = Form(...),
+    charisma: str = Form(...),
+    constitution: str = Form(...),
+    ):
+    stats = Stats(
+        strength=strength,
+        dexterity=dexterity,
+        constitution=constitution,
+        intelligence=intelligence,
+        wisdom=wisdom,
+        charisma=charisma,
+    )
     redisbase.set_char_ctats(USER_ID, stats.model_dump())
-    print(stats.model_dump())
-    return {"message": "Данные успешно получены", "data": stats.model_dump()}
-
-
-@router.get("/dices/", response_class=HTMLResponse)
-async def add_dices1(request: Request):
     char_info = redisbase.get_char_info(USER_ID)
     return templates.TemplateResponse(
         "char.html",
         {"request": request, "char_info": char_info},
     )
+
+
