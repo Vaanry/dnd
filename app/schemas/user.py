@@ -20,4 +20,4 @@ class User(BaseModel):
     is_admin: bool = Field(default=False, alias="is_admin")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
