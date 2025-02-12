@@ -27,7 +27,7 @@ class Subclass(BaseModel):
 
 
 class CharacterClass(BaseModel):
-    #owner: int  # ID владельца персонажа
+    # owner: int  # ID владельца персонажа
     name: str  # Название класса, например, "Barbarian"
     description: str  # Общая информация о классе
     hit_dice: int  # Например, "d12"

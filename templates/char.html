@@ -1,0 +1,34 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<title>Create Character</title>
+
+
+<h2>Информация о персонаже</h2>
+<p>Имя персонажа: {{ char_info.char_name }}</p>
+<p>Раса: {{ char_info.char_race }}</p>
+<p>Подраса: {{ char_info.char_subrace }}</p>
+<p>Класс: {{ char_info.char_class }}</p>
+
+{% if char_info.char_skills %}
+    <h3>Навыки персонажа:</h3>
+    <ul>
+        {% for skill in char_info.char_skills %}
+            <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Навыков нет.</p>
+{% endif %}
+
+<h3>Характеристики персонажа:</h3>
+<ul>
+    {% for key, value in char_info.char_stats.items() %}
+        <li>{{ key }}: {{ value }}</li>
+    {% endfor %}
+</ul>
+
+
+
+
+{% endblock %}
