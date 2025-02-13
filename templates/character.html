@@ -1,6 +1,12 @@
 {% extends "main.html" %}
 
 {% block crud_container %}
+
+<style>
+    .name {
+        text-transform: capitalize;
+    }
+</style>
 <title>Create Character</title>
 
 <script>
@@ -125,7 +131,10 @@
     <div class="character-creation">
         <div class="left-panel">
             <label for="username">Имя персонажа:</label>
-            <input type="text" id="name" name="name" placeholder="Введите имя" required>
+            <input type="text"
+                title="Разрешены буквы английского и русского алфавита, цифры, максимальная длина 20 символов, минимальная 2"
+                id="name" class="name" name="name" placeholder="Введите имя" maxlength="20" minlength="2"
+                pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$" required>
 
             <label for="gender">Выберите пол персонажа:</label>
             <select name="gender" id="gender">

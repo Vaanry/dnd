@@ -7,10 +7,14 @@
     <form id="registration-form" class="registration-form" method="post"
         action="{% if is_registration %}/auth/registration/{% else %}/auth/login/{% endif %}">
         <label for="username">Имя пользователя:</label>
-        <input type="text" id="username" name="username" autocomplete="off" required>
+        <input type="text" id="username" name="username" autocomplete="off"
+            title="Разрешены буквы английского и русского алфавита, цифры, максимальная длина 20 символов, минимальная 2"
+            maxlength="20" minlength="2" pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$" required>
         <br><br>
         <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" autocomplete="off" required>
+        <input type="password" id="password" name="password" autocomplete="off"
+            title="Минимальная длина 8 символов a-zA-Z0-9, максимальная 20" maxlength="20" minlength="8"
+            pattern="^[a-zA-Z0-9]+$" required>
         <br><br>
         <button type="submit" id="reg-button" class="submit-button">{% if is_registration %}Отправить{% else %}Войти{%
             endif %}</button>

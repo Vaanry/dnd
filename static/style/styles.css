@@ -82,6 +82,10 @@ footer {
     margin-top: 20px;
 }
 
+.name {
+    text-transform: capitalize;
+}
+
 .left-panel,
 .right-panel {
     width: 45%;
