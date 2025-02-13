@@ -5,13 +5,15 @@
 
 
 <body>
-    {% if request.state.user %}
-    <a href="/character">Создай своего персонажа!</a>
-    {% endif %}
+    <div class="main">
+        {% if request.state.user %}
+        <button type="submit" onclick="location.href='/character'">Создай своего персонажа!</button>
+        {% endif %}
 
-    {% if message %}
-    <p>{{ message }}</p>
-    {% endif %}
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
+    </div>
 </body>
 
 
