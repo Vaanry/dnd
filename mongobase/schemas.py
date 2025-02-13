@@ -59,8 +59,10 @@ class SkillProficiencies(BaseModel):
 
 
 class Character(BaseModel):
+    owner: int  # Владелец персонажа
     name: str  # Имя персонажа
     race: str  # Раса персонажа, например, "Tiefling"
+    subrace: str  # Подраса персонажа
     gender: Literal["Male", "Female"]  # Пол персонажа
     character_class: str  # Ссылка на модель класса
     subclass: str  # Ссылка на подкласс (если есть)

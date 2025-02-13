@@ -37,8 +37,9 @@
 <div class="container">
     <h3> {{ char_info.char_name }}</h3>
     <div class="char_main_info">
+        <p>Пол: {{ char_info.char_gender }}</p>
         <p>Раса: {{ char_info.char_race }}</p>
-        {% if char_info.char_subrace %}
+        {% if char_info.char_subrace != "No subrace" %}
         <p>Подраса: {{ char_info.char_subrace }}</p>
         {% else%}<p></p>
         {% endif %}
@@ -68,7 +69,9 @@
             {% endfor %}
         </ul>
     </div>
-    <button type="submit">Сохранить персонажа</button>
+    <form method="post" action="/character/save">
+        <button type="submit">Сохранить персонажа</button>
+    </form>
 </div>
 <br>
 {% endblock %}

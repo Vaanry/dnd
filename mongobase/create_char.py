@@ -58,13 +58,14 @@ def create_char(char: dict):
         wisdom=char["stats"]["Wisdom"],
         charisma=char["stats"]["Charisma"],
     )
-    skills = SkillProficiencies(proficient=character_class["skills"][:2], other=[])
+    skills = SkillProficiencies(proficient=char["skills"], other=[])
     hp = character_class["hit_dice"] + modificators[char["stats"]["Constitution"]]
 
     character = Character(
         owner=char["owner"],
         name=char["name"],
         race=char["race"],
+        subrace=char["subrace"],
         gender=char["gender"],
         character_class=character_class["name"],
         subclass=" ",

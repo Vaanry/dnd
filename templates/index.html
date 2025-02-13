@@ -5,7 +5,13 @@
 
 
 <body>
-    <a href="/character">LINK</a>
+    {% if request.state.user %}
+    <a href="/character">Создай своего персонажа!</a>
+    {% endif %}
+
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
 </body>
 
 

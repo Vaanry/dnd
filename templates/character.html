@@ -127,6 +127,12 @@
             <label for="username">Имя персонажа:</label>
             <input type="text" id="name" name="name" placeholder="Введите имя" required>
 
+            <label for="gender">Выберите пол персонажа:</label>
+            <select name="gender" id="gender">
+                <option value="Female">Женский</option>
+                <option value="Male">Мужской</option>
+            </select>
+
             <label for="raceDropdown">Раса:</label>
             <select name="race_name" id="raceDropdown" onchange="updateRaceDescription()"
                 onclick="updateRaceDescription()">
