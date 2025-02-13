@@ -15,8 +15,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.db_depends import get_db
 from app.models import Users
 from app.schemas import CreateUser
+from app.forms.user import RegistrationForm
 
 from ..config import settings
+
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -66,8 +68,9 @@ async def login_form(request: Request):
     """
     Отображает HTML-форму для входа.
     """
+    csrftoken = request.cookies.get("csrftoken")
     return templates.TemplateResponse(
-        "login.html", {"request": request, "is_registration": False}
+        "login.html", {"request": request, "is_registration": False, "csrftoken": csrftoken}
     )
 
 
@@ -76,9 +79,18 @@ async def auth_user(
     request: Request,
     db: Annotated[AsyncSession, Depends(get_db)],
     response: Response,
+    csrf_token: str = Form(...),
     username: str = Form(...),
     password: str = Form(...),
+
 ):
+    token_in_cookie = request.cookies.get("csrftoken")
+    print(1, token_in_cookie)
+    print(2, csrf_token)
+    # Проверка на совпадение CSRF токенов
+    if not token_in_cookie or token_in_cookie != csrf_token:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="CSRF token mismatch")
+    
     try:
         user_data = CreateUser(username=username, password=password)
     except ValueError as e:
@@ -156,8 +168,10 @@ async def registration_form(request: Request):
     """
     Отображает HTML-форму для регистрации.
     """
+    form = RegistrationForm()
+    csrf_token = request.state.csrf_token
     return templates.TemplateResponse(
-        "login.html", {"request": request, "is_registration": True}
+        "login.html", {"request": request, "is_registration": True, "form": form, "csrf_token": csrf_token}
     )
 
 

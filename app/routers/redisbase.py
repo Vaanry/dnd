@@ -5,10 +5,12 @@ import redis
 r = redis.Redis()
 
 
-def set_char_init(user_id: int, char_name: str, char_gender: str, char_race: str):
+def set_char_init(user_id: int, char_name: str, char_gender: str, char_race: str, kidness: str, lawfullness: str):
     r.hset(user_id, "char_name", char_name)
     r.hset(user_id, "char_gender", char_gender)
     r.hset(user_id, "char_race", char_race)
+    alignment = f"{lawfullness} {kidness}"
+    r.hset(user_id, "alignment", alignment)
 
 
 def set_char_race(user_id: int, char_race: str):
@@ -43,6 +45,7 @@ def get_char_info(user_id: int) -> Dict:
 
     char_name = r.hget(user_id, "char_name").decode("UTF-8")
     char_gender = r.hget(user_id, "char_gender").decode("UTF-8")
+    char_alignment = r.hget(user_id, "alignment").decode("UTF-8")
     char_race = r.hget(user_id, "char_race").decode("UTF-8")
     subrace = r.hget(user_id, "char_subrace").decode("UTF-8")
 
@@ -64,6 +67,7 @@ def get_char_info(user_id: int) -> Dict:
     char_info = {
         "char_name": char_name,
         "char_gender": char_gender,
+        "char_alignment": char_alignment,
         "char_race": char_race,
         "char_subrace": char_subrace,
         "char_class": char_class,

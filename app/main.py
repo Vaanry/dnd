@@ -3,8 +3,9 @@ from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from jinja2 import Environment  # noqa
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.sessions import SessionMiddleware
+from starlette_csrf import CSRFMiddleware
 
 from app.routers import main_router
 from app.routers.auth import get_current_user
@@ -15,6 +16,8 @@ templates = Jinja2Templates(directory="templates")
 
 
 app = FastAPI(title=settings.app_title)
+
+
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -32,6 +35,8 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
 
 app.add_middleware(AuthMiddleware)
+app.add_middleware(SessionMiddleware, secret_key="your_secret_key")
+app.add_middleware(CSRFMiddleware, secret="__CHANGE_ME__")
 
 
 @app.get("/")

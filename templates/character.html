@@ -137,13 +137,13 @@
                 pattern="^[а-яА-ЯёЁa-zA-Z0-9]+$" required>
 
             <label for="gender">Выберите пол персонажа:</label>
-            <select name="gender" id="gender">
+            <select name="gender" id="gender" required>
                 <option value="Female">Женский</option>
                 <option value="Male">Мужской</option>
             </select>
 
             <label for="raceDropdown">Раса:</label>
-            <select name="race_name" id="raceDropdown" onchange="updateRaceDescription()"
+            <select name="race_name" id="raceDropdown" required onchange="updateRaceDescription()"
                 onclick="updateRaceDescription()">
                 <option value="" selected disabled>Выберите расу</option>
                 {% for race in all_races %}
@@ -155,6 +155,21 @@
                     {{ race.name }}
                 </option>
                 {% endfor %}
+            </select>
+
+            
+            <label for="kidness">Насколько добрый твой персонаж?</label>
+            <select name="kidness" id="kidness" required>
+                <option value="Good">Добрый</option>
+                <option value="Neutral">Нейтральный</option>
+                <option value="Evel">Злой</option>
+            </select>
+
+            <label for="lawfullness">А насколько он законопослушный?</label>
+            <select name="lawfullness" id="lawfullness" required>
+                <option value="lawfull">Законопослушный</option>
+                <option value="Neutral">Нейтральный</option>
+                <option value="Chaotic">Хаотичный</option>
             </select>
         </div>
 
