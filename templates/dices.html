@@ -18,28 +18,28 @@
         border-radius: 5px;
     }
 
-    .roll-list {
-        display: flex;
-        background-color: #a1b1d4;
-        border-radius: 3px;
-    }
-
     .dice-result {
-        display: inline-block;
+        display: block;
         padding: 10px;
         background-color: #2c3e50;
         border: 2px solid #333;
         margin: 10px;
         text-align: center;
-        line-height: 50px;
+        line-height: 25px;
+        width: 25px;
         font-size: 16px;
         font-weight: bold;
         border-radius: 5px;
         cursor: pointer;
     }
 
+    .dice-result:hover {
+        color: white;
+        box-shadow: 0 5px 15px #afe0f5;
+    }
+
     .button-container {
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     .result-container {
@@ -55,6 +55,12 @@
         text-align: left;
         margin-top: 20px;
         margin-bottom: 10px;
+    }
+
+    .button_submit {
+        display: flex;
+        justify-content: center;
+        align-self: center;
     }
 
     .attribute-container {
@@ -169,8 +175,9 @@
                             required></select> -->
                     </div>
                 </div>
-
-                <button type="submit">Отправить</button>
+                <div class="button_submit">
+                    <button type="submit">Отправить</button>
+                </div>
             </form>
         </div>
     </div>
@@ -314,13 +321,12 @@
                 let rollList = document.createElement("div");
                 rollList.classList.add("roll-list");
                 rollList.style.display = "flex";
-                rollList.style.gap = "10px";
                 rollList.style.justifyContent = "center";
 
                 rollResults.forEach((sum, index) => {
                     let rollElement = document.createElement("div");
                     rollElement.classList.add("dice-result");
-                    rollElement.textContent = `Бросок ${index + 1}: ${sum}`;
+                    rollElement.textContent = `${sum}`;
                     rollElement.draggable = true;
                     rollElement.dataset.value = sum;
                     rollElement.addEventListener("dragstart", handleDragStart);
