@@ -6,19 +6,50 @@
 <div class="container_registration">
     <form id="registration-form" class="registration-form" method="post"
         action="{% if is_registration %}/auth/registration/{% else %}/auth/login/{% endif %}">
-
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
         <label for="username">Имя пользователя:</label>
         <input type="text" id="username" name="username" autocomplete="off"
             title="Разрешены буквы английского и русского алфавита, цифры, знак нижнего подчёркивания, максимальная длина 20 символов, минимальная 2"
             maxlength="20" minlength="2" pattern="^[а-яА-ЯёЁa-zA-Z0-9_]+$" required>
         <br><br>
+        
         <label for="password">Пароль:</label>
         <input type="password" id="password" name="password" autocomplete="off"
             title="Минимальная длина 8 символов a-zA-Z0-9*#, максимальная 20" maxlength="20" minlength="8"
             pattern="^[a-zA-Z0-9]+*#_$" required>
         <br><br>
-        <button type="submit" id="reg-button" class="submit-button">{% if is_registration %}Отправить{% else %}Войти{%
-            endif %}</button>
+        
+        <button type="submit" id="reg-button" class="submit-button">{% if is_registration %}Отправить{% else %}Войти{% endif %}</button>
     </form>
 </div>
+
+<script>
+document.getElementById("registration-form").addEventListener("submit", async function(event) {
+    event.preventDefault();  // Предотвращаем стандартную отправку формы
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const csrfToken = formData.get("csrf_token");
+
+    // Получаем правильный URL из атрибута action формы
+    const actionUrl = form.action;  
+
+    const response = await fetch(actionUrl, {
+        method: "POST",
+        headers: {
+            "X-CSRF-Token": csrfToken,  // Передаём CSRF-токен в заголовке
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams(formData).toString()
+    });
+
+    if (response.ok) {
+        window.location.href = "/";
+    } else {
+        console.error("Ошибка запроса:", await response.text());
+    }
+});
+</script>
+
 {% endblock %}

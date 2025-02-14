@@ -69,7 +69,10 @@
             {% endfor %}
         </ul>
     </div>
-    <form method="post" action="/character/save">
+    <div class="char_main_info">
+        <form method="post" action="/character/save">
+        <label for="notes">Краткое описание твоего персонажа:</label>
+        <input type="text" id="notes" name="notes" autocomplete="off" title="Максимальная длина 200 символов" maxlength="200">   
         <button type="submit">Сохранить персонажа</button>
     </form>
 </div>

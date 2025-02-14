@@ -140,6 +140,7 @@ async def add_dices(
 async def save_char(
     request: Request,
     get_user: Annotated[dict, Depends(get_current_user)],
+    notes: str = Form(...),
 ):
     user_id = get_user.get("id")
     char_info = redisbase.get_char_info(user_id)
@@ -148,7 +149,7 @@ async def save_char(
         "owner": user_id,
         "name": char_info["char_name"],
         "race": char_info["char_race"],
-        "alignment": char_info["alignment"],
+        "alignment": char_info["char_alignment"],
         "subrace": char_info["char_subrace"],
         "gender": char_info["char_gender"],
         "character_class": char_info["char_class"],
@@ -163,7 +164,7 @@ async def save_char(
         "skills": char_info["char_skills"],
         "level": 1,
         "background": "Бомж",
-        "notes": "Я не знаю как жить эту жизнь...",
+        "notes": notes,
     }
     create_char(char)
     redisbase.delete_char_info(user_id)

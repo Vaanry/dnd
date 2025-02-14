@@ -17,7 +17,7 @@ from app.models import Users
 from app.schemas import CreateUser
 from app.forms.user import RegistrationForm
 
-from ..config import settings
+from ..config import settings, CsrfProtect
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -64,14 +64,17 @@ async def create_access_token(
 
 
 @router.get("/login/", response_class=HTMLResponse)
-async def login_form(request: Request):
+async def login_form(request: Request, csrf_protect: CsrfProtect = Depends()):
     """
     Отображает HTML-форму для входа.
     """
-    csrftoken = request.cookies.get("csrftoken")
-    return templates.TemplateResponse(
-        "login.html", {"request": request, "is_registration": False, "csrftoken": csrftoken}
+    csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
+    response = templates.TemplateResponse(
+        "login.html", {"request": request, "is_registration": False, "csrf_token": csrf_token}
     )
+    csrf_protect.set_csrf_cookie(signed_token, response)
+
+    return response
 
 
 @router.post("/login/")
@@ -82,15 +85,12 @@ async def auth_user(
     csrf_token: str = Form(...),
     username: str = Form(...),
     password: str = Form(...),
+    csrf_protect: CsrfProtect = Depends()
 
 ):
-    token_in_cookie = request.cookies.get("csrftoken")
-    print(1, token_in_cookie)
-    print(2, csrf_token)
-    # Проверка на совпадение CSRF токенов
-    if not token_in_cookie or token_in_cookie != csrf_token:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="CSRF token mismatch")
-    
+    await csrf_protect.validate_csrf(request)
+    csrf_protect.unset_csrf_cookie(response)
+
     try:
         user_data = CreateUser(username=username, password=password)
     except ValueError as e:
@@ -115,12 +115,13 @@ async def auth_user(
         secure=False,
         path="/",
     )
-
+    
     return RedirectResponse(
         url="/",
         status_code=status.HTTP_302_FOUND,
         headers=response.headers,
     )
+
 
 
 def get_token(request: Request):
@@ -164,15 +165,16 @@ async def get_current_user(token: str = Depends(get_token)):
 
 
 @router.get("/registration", response_class=HTMLResponse)
-async def registration_form(request: Request):
+async def registration_form(request: Request, csrf_protect: CsrfProtect = Depends()):
     """
     Отображает HTML-форму для регистрации.
     """
-    form = RegistrationForm()
-    csrf_token = request.state.csrf_token
-    return templates.TemplateResponse(
-        "login.html", {"request": request, "is_registration": True, "form": form, "csrf_token": csrf_token}
+    csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
+    response = templates.TemplateResponse(
+        "login.html", {"request": request, "is_registration": True, "csrf_token": csrf_token}
     )
+    csrf_protect.set_csrf_cookie(signed_token, response)
+    return response
 
 
 @router.post("/registration")
@@ -184,8 +186,10 @@ async def registration_confirm(
     ],
     username: str = Form(...),
     password: str = Form(...),
+    csrf_protect: CsrfProtect = Depends()
 ):
-
+    await csrf_protect.validate_csrf(request)
+    
     try:
         user = CreateUser(username=username, password=password)
     except ValueError as e:
@@ -197,13 +201,15 @@ async def registration_confirm(
     )
 
     await db.commit()
-    return templates.TemplateResponse(
+    response = templates.TemplateResponse(
         "index.html",
         {
             "request": request,
             "message": "Успешная регистрация! Вы можете зайти со своим логином и паролем.",
         },
     )
+    csrf_protect.unset_csrf_cookie(response)  # prevent token reuse
+    return response
 
 
 @router.get("/logout/")

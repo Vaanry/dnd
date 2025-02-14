@@ -1,8 +1,9 @@
-from wtforms import Form, StringField, PasswordField
+from starlette_wtf import StarletteForm
+from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Regexp, Length
 
 
-class RegistrationForm(Form):
+class RegistrationForm(StarletteForm):
 
     username = StringField(
         "Имя пользователя",
