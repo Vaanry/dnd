@@ -1,0 +1,56 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+
+<title>Мои персонажи</title>
+<h1>Мои персонажи</h1>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Раса</th>
+            <th>Пол</th>
+            <th>Класс</th>
+            <th>Уровень</th>
+            <th>ХП</th>
+            <th>Класс брони</th>
+            <th>Навыки</th>
+            <th>Снаряжение</th>
+            <th>Заметки</th>
+            <th>Предыстория</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for character in characters %}
+        <tr>
+            <td><a href="{{ url_for('my_character', name=character.name) }}">
+                {{ character.name }}
+            </a></td>
+            <td>{{ character.race }}</td>
+            <td>{{ character.gender }}</td>
+            <td>{{ character.character_class }}</td>
+            <td>{{ character.level }}</td>
+            <td>{{ character.current_hp }} / {{ character.max_hp }}</td>
+            <td>{{ character.armor_class }}</td>
+            <td>
+                <ul>
+                    {% for skill in character.skills.proficient %}
+                        <p>{{ skill }}</p>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    {% for item in character.equipment %}
+                        <p>{{ item }}</p>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>{{ character.notes }}</td>
+            <td>{{ character.background }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

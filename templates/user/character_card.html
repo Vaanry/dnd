@@ -1,0 +1,110 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<style>.character-card {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #012719;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+}
+
+.character-card h2 {
+    text-align: center;
+    color: #dcf500;
+}
+
+.character-card p {
+    margin: 5px 0;
+}
+
+.stats, .skills, .abilities, .equipment, .other-info, .notes {
+    margin-top: 15px;
+    padding: 10px;
+    background: #001307;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats ul, .skills ul, .equipment ul {
+    list-style: none;
+    padding: 0;
+}
+
+.stats li, .skills li, .equipment li {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.stats li:last-child, .skills li:last-child, .equipment li:last-child {
+    border-bottom: none;
+}
+
+.ability {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: rgb(28, 28, 160);
+    border-left: 4px solid #77f;
+}
+</style>
+
+<div class="character-card">
+    <h2>{{ character.name }}</h2>
+    <p><strong>Раса:</strong> {{ character.race }}{% if character.subrace != "No subrace" %} ({{ character.subrace }}){% endif %}</p>
+    <p><strong>Класс:</strong> {{ character.character_class }}{% if character.subclass != " " %} ({{ character.subclass }}){% endif %}</p>
+    <p><strong>Уровень:</strong> {{ character.level }}</p>
+    <p><strong>Мировоззрение:</strong> {{ character.alignment }}</p>
+    <p><strong>Предыстория:</strong> {{ character.background }}</p>
+    <p><strong>Пол:</strong> {{ character.gender }}</p>
+
+    <div class="stats">
+        <h3>Характеристики</h3>
+        <ul>
+            {% for stat, value in character.stats.items() %}
+            <li><strong>{{ stat.capitalize() }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="skills">
+        <h3>Навыки</h3>
+        <ul>
+            {% for skill in character.skills.proficient %}
+            <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="abilities">
+        <h3>Способности</h3>
+        {% for ability in character.abilities %}
+        <div class="ability">
+            <strong>{{ ability.name }} (уровень {{ ability.level_acquired }})</strong>
+            <p>{{ ability.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="equipment">
+        <h3>Снаряжение</h3>
+        <ul>
+            {% for item in character.equipment %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="other-info">
+        <p><strong>Текущие HP:</strong> {{ character.current_hp }}/{{ character.max_hp }}</p>
+        <p><strong>Класс брони:</strong> {{ character.armor_class }}</p>
+        <p><strong>Скорость:</strong> {{ character.speed }}</p>
+    </div>
+
+    <div class="notes">
+        <h3>Заметки</h3>
+        <p>{{ character.notes }}</p>
+    </div>
+</div>
+{% endblock %}

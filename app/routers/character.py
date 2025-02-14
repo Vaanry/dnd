@@ -2,7 +2,7 @@ import os
 import sys
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Form
+from fastapi import APIRouter, Depends, Form, status
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -136,7 +136,7 @@ async def add_dices(
     )
 
 
-@router.post("/save/", response_class=HTMLResponse)
+@router.post("/save/", response_class=RedirectResponse)
 async def save_char(
     request: Request,
     get_user: Annotated[dict, Depends(get_current_user)],
@@ -168,7 +168,6 @@ async def save_char(
     }
     create_char(char)
     redisbase.delete_char_info(user_id)
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request, "message": "Персонаж успешно создан!"},
+    return RedirectResponse(
+        url=f"/user/my_characters/{char_info["char_name"]}", status_code=status.HTTP_303_SEE_OTHER
     )

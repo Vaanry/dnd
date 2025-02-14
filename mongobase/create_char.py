@@ -1,15 +1,8 @@
-import json
 from typing import List
 
-from mongobase.classes import barbarian_class, cleric_class, rogue_class
 from mongobase.mongo_config import characters, classes, races
-from mongobase.races import (dwarf, elf, gnome, half_elf, half_orc, halfling,
-                             human, tiefling)
 from mongobase.rules import modificators, proficiency_bonuses
 from mongobase.schemas import Character, SkillProficiencies, Stats
-
-# classes.insert_many([barbarian_class.model_dump(by_alias=True), cleric_class.model_dump(by_alias=True), rogue_class.model_dump(by_alias=True)])
-# races.insert_many([elf.model_dump(by_alias=True), human.model_dump(by_alias=True), gnome.model_dump(by_alias=True), dwarf.model_dump(by_alias=True), half_elf.model_dump(by_alias=True), half_orc.model_dump(by_alias=True), halfling.model_dump(by_alias=True), tiefling.model_dump(by_alias=True)])
 
 
 def get_races() -> List:
@@ -18,7 +11,7 @@ def get_races() -> List:
     return all_rases
 
 
-def get_subraces(race_name: str):
+def get_subraces(race_name: str) -> List:
     race = races.find_one({"name": race_name}, {"subraces": 1, "_id": 0})
     if race["subraces"] is not None:
         subraces = [subrace for subrace in race["subraces"]]
@@ -35,7 +28,7 @@ def get_classes() -> List:
     return all_classes
 
 
-def get_class_skills(class_name: str):
+def get_class_skills(class_name: str) -> List:
     character_skills = classes.find_one({"name": class_name}, {"skills": 1, "_id": 0})
     return character_skills["skills"]
 
