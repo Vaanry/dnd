@@ -22,6 +22,11 @@
         margin: 5px 0;
     }
 
+    .notes {
+        width: 75%;
+        margin: auto;
+    }
+
     .char_main_info {
         background-color: rgb(73, 118, 158);
         margin: 10px 0;
@@ -29,6 +34,8 @@
         border-radius: 10px;
         outline: none;
         box-shadow: 0 0 8px #51ccee96;
+        justify-content: center;
+
     }
 </style>
 
@@ -71,10 +78,11 @@
     </div>
     <div class="char_main_info">
         <form method="post" action="/character/save">
-        <label for="notes">Краткое описание твоего персонажа:</label>
-        <input type="text" id="notes" name="notes" autocomplete="off" title="Максимальная длина 200 символов" maxlength="200">   
-        <button type="submit">Сохранить персонажа</button>
-    </form>
-</div>
-<br>
-{% endblock %}
+            <label for="notes">Краткое описание твоего персонажа:</label>
+            <input type="text" class="notes" id="notes" name="notes" autocomplete="off"
+                title="Максимальная длина 200 символов" maxlength="200">
+            <button type="submit">Сохранить персонажа</button>
+        </form>
+    </div>
+    <br>
+    {% endblock %}
