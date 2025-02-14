@@ -26,6 +26,43 @@ class Subclass(BaseModel):
 #     quantity: int
 
 
+# class EquipmentItem(BaseModel):
+#     name: str
+#     quantity: int
+
+
+class ArmorItem(BaseModel):
+    name: str  # Название доспеха
+    armor_type: Literal[
+        "light", "medium", "heavy", "shield"
+    ]  # Тип доспеха (легкий, средний, тяжелый)
+    cost: int  # Стоимость доспеха (в золотых монетах)
+    armor_class: int  # Класс брони
+    strength_required: Optional[int] = None  # Требуется сила (если есть)
+    disadvantage: Optional[bool] = None  # Помеха (если есть)
+
+
+class Damage(BaseModel):
+    amount: str  # Например, "1d6", "1d10"
+    damage_type: str  # Например, "bludgeoning", "fire", "piercing", etc.
+
+
+class WeaponItem(BaseModel):
+    name: str  # Название оружия, например, "Longsword", "Bow"
+    attack_type: Literal[
+        "melee", "ranged"
+    ]  # Тип атаки: "melee" (рукопашное) или "ranged" (дальнобойное)
+    weapon_category: Literal[
+        "martial", "simple"
+    ]  # Тип оружия: "martial" (воинское) или "simple" (простое)
+    damage: List[Damage]  # Список возможных типов урона для оружия
+    properties: List[str]  # Список свойств оружия: например, "thrown", "light", etc.
+    range: Optional[int] = (
+        None  # Дистанция для дальнобойного оружия (опционально, только для ranged)
+    )
+    cost: int  # Стоимость
+
+
 class CharacterClass(BaseModel):
     # owner: int  # ID владельца персонажа
     name: str  # Название класса, например, "Barbarian"

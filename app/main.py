@@ -13,8 +13,6 @@ from .config import settings
 # from starlette.middleware.sessions import SessionMiddleware
 
 
-
-
 templates = Jinja2Templates(directory="templates")
 
 

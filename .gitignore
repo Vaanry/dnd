@@ -173,3 +173,6 @@ example1.json
 example_char.json
 
 examples.py
+mongobase/items.py
+mongobase/races.py
+mongobase/classes.py
