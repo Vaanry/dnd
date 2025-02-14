@@ -5,7 +5,14 @@ import redis
 r = redis.Redis()
 
 
-def set_char_init(user_id: int, char_name: str, char_gender: str, char_race: str, kidness: str, lawfullness: str):
+def set_char_init(
+    user_id: int,
+    char_name: str,
+    char_gender: str,
+    char_race: str,
+    kidness: str,
+    lawfullness: str,
+):
     r.hset(user_id, "char_name", char_name)
     r.hset(user_id, "char_gender", char_gender)
     r.hset(user_id, "char_race", char_race)

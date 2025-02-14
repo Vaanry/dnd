@@ -13,12 +13,11 @@ from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.db_depends import get_db
+from app.forms.user import RegistrationForm
 from app.models import Users
 from app.schemas import CreateUser
-from app.forms.user import RegistrationForm
 
-from ..config import settings, CsrfProtect
-
+from ..config import CsrfProtect, settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -70,7 +69,8 @@ async def login_form(request: Request, csrf_protect: CsrfProtect = Depends()):
     """
     csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
     response = templates.TemplateResponse(
-        "login.html", {"request": request, "is_registration": False, "csrf_token": csrf_token}
+        "login.html",
+        {"request": request, "is_registration": False, "csrf_token": csrf_token},
     )
     csrf_protect.set_csrf_cookie(signed_token, response)
 
@@ -85,8 +85,7 @@ async def auth_user(
     csrf_token: str = Form(...),
     username: str = Form(...),
     password: str = Form(...),
-    csrf_protect: CsrfProtect = Depends()
-
+    csrf_protect: CsrfProtect = Depends(),
 ):
     await csrf_protect.validate_csrf(request)
     csrf_protect.unset_csrf_cookie(response)
@@ -115,13 +114,12 @@ async def auth_user(
         secure=False,
         path="/",
     )
-    
+
     return RedirectResponse(
         url="/",
         status_code=status.HTTP_302_FOUND,
         headers=response.headers,
     )
-
 
 
 def get_token(request: Request):
@@ -171,7 +169,8 @@ async def registration_form(request: Request, csrf_protect: CsrfProtect = Depend
     """
     csrf_token, signed_token = csrf_protect.generate_csrf_tokens()
     response = templates.TemplateResponse(
-        "login.html", {"request": request, "is_registration": True, "csrf_token": csrf_token}
+        "login.html",
+        {"request": request, "is_registration": True, "csrf_token": csrf_token},
     )
     csrf_protect.set_csrf_cookie(signed_token, response)
     return response
@@ -186,10 +185,10 @@ async def registration_confirm(
     ],
     username: str = Form(...),
     password: str = Form(...),
-    csrf_protect: CsrfProtect = Depends()
+    csrf_protect: CsrfProtect = Depends(),
 ):
     await csrf_protect.validate_csrf(request)
-    
+
     try:
         user = CreateUser(username=username, password=password)
     except ValueError as e:

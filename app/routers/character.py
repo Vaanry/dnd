@@ -169,5 +169,6 @@ async def save_char(
     create_char(char)
     redisbase.delete_char_info(user_id)
     return RedirectResponse(
-        url=f"/user/my_characters/{char_info["char_name"]}", status_code=status.HTTP_303_SEE_OTHER
+        url=f"/user/my_characters/{char_info["char_name"]}",
+        status_code=status.HTTP_303_SEE_OTHER,
     )

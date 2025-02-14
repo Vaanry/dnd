@@ -4,13 +4,16 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.base import BaseHTTPMiddleware
-#from starlette.middleware.sessions import SessionMiddleware
-
 
 from app.routers import main_router
 from app.routers.auth import get_current_user
 
 from .config import settings
+
+# from starlette.middleware.sessions import SessionMiddleware
+
+
+
 
 templates = Jinja2Templates(directory="templates")
 
@@ -33,7 +36,7 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
 
 app.add_middleware(AuthMiddleware)
-#app.add_middleware(SessionMiddleware, secret_key="your_secret_key")
+# app.add_middleware(SessionMiddleware, secret_key="your_secret_key")
 
 
 @app.get("/")
@@ -60,9 +63,10 @@ async def custom_http_exception_handler(request: Request, exc: HTTPException):
     )
 
 
-    
-from fastapi_csrf_protect.exceptions import CsrfProtectError   
-from fastapi.responses import JSONResponse 
+from fastapi.responses import JSONResponse
+from fastapi_csrf_protect.exceptions import CsrfProtectError
+
+
 @app.exception_handler(CsrfProtectError)
 def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
-  return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
+    return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
