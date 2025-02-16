@@ -36,6 +36,20 @@ async def my_characters(
         "user/characters.html", {"request": request, "characters": characters}
     )
 
+# тестовая страница +
+
+@router.get("/test")
+async def my_character(
+    request: Request, get_user: Annotated[dict, Depends(get_current_user)]
+):
+
+    id = get_user.get("id")
+
+    return templates.TemplateResponse(
+        "user/test.html", {"request": request}
+    )
+
+# тестовая страница -
 
 @router.get("/my_characters/{name}")
 async def my_character(
