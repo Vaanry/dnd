@@ -1,0 +1,413 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лист персонажа D&D 5e</title>
+    <link rel="stylesheet" type="text/css" href="/static/style/charsheet_style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Персонаж {{character.name}}</h1>
+        <div class="charsheet_header">
+            <div class="logo"></div>
+            <div class="top_info-box name">
+                <label>Имя персонажа</label>
+                <div class="value">{{character.name}}</div>
+            </div>
+            <div class="top_info-box class">
+                <label>Класс</label>
+                <div class="value">{{character.character_class}}</div>
+            </div>
+            <div class="top_info-box race">
+                <label>Раса</label>
+                <div class="value">{{character.race}} ({{character.subrace}})</div>
+            </div>
+            <div class="top_info-box background">
+                <label>Происхождение</label>
+                <div class="value">{{character.background}}</div>
+            </div>
+            <div class="top_info-box alignment">
+                <label>Мировоззрение</label>
+                <div class="value">{{character.alignment}}</div>
+            </div>
+            <div class="top_info-box expirience">
+                <label>Expirience</label>
+                <div class="value">1000</div>
+            </div>
+        </div>
+        <div class="all_things">
+            <div class="stats_column">
+                <div class="stats-box_stats">
+                    <label>Сила</label>
+                    <div class="stats_value">{{character.stats.strength}}</div>
+                    <div class="stats-mod">
+                        <p>+4</p>
+                    </div>
+                </div>
+                <br>
+                <div class="stats-box_stats">
+                    <label>Ловкость</label>
+                    <div class="stats_value">{{character.stats.dexterity}}</div>
+                    <div class="stats-mod">
+                        <p>+4</p>
+                    </div>
+                </div>
+                <br>
+                <div class="stats-box_stats">
+                    <label>Телосложение</label>
+                    <div class="stats_value">{{character.stats.constitution}}</div>
+                    <div class="stats-mod">
+                        <p>+4</p>
+                    </div>
+                </div>
+                <br>
+                <div class="stats-box_stats">
+                    <label>Интелект</label>
+                    <div class="stats_value">{{character.stats.intelligence}}</div>
+                    <div class="stats-mod">
+                        <p>+4</p>
+                    </div>
+                </div>
+                <br>
+                <div class="stats-box_stats">
+                    <label>Мудрость</label>
+                    <div class="stats_value">{{character.stats.wisdom}}</div>
+                    <div class="stats-mod">
+                        <p>+4</p>
+                    </div>
+                </div>
+                <br>
+                <div class="stats-box_stats">
+                    <label>Харизма</label>
+                    <div class="stats_value">{{character.stats.charisma}}</div>
+                    <div class="stats-mod">
+                        <p>+4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bonuses_column">
+                <div class="bonuses_value">
+                    <div class="inspiration">
+                        <h2>Вдохновение</h2>
+                        <div class="inspiration_val">3</div>
+                    </div>
+                    <div class="proficiency_bonus">
+                        <h2>Бонус мастерства</h2>
+                        <div class="proficiency_bonus_val">{{character.proficiency_bonus}}</div>
+                    </div>
+                    <div class="modifier">
+                        <table class="save_throws">
+                            <h3>Спасброски</h3>
+                            <tbody>
+                                <tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Strength">4</p>
+                                    </td>
+                                    <td>Сила</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Dexterity">4</p>
+                                    </td>
+                                    <td>Ловкость</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Constitution">4</p>
+                                    </td>
+                                    <td>Телосложение</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Intelligence">4</p>
+                                    </td>
+                                    <td>Интеллект</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Wisdom">4</p>
+                                    </td>
+                                    <td>Мудрость</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Charisma">4</p>
+                                    </td>
+                                    <td>Харизма</td>
+                                </tr>
+                        </table>
+                        <table class="skills">
+                            <h3>Навыки</h3>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Acrobatics">4</p>
+                                    </td>
+                                    <td>Акробатика (Лов)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Analysis">4</p>
+                                    </td>
+                                    <td>Анализ (Инт)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Athletics">4</p>
+                                    </td>
+                                    <td>Атлетика (Сил)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Perception">4</p>
+                                    </td>
+                                    <td>Внимательность (Мдр)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Survival">4</p>
+                                    </td>
+                                    <td>Выживание (Мдр)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Performance">4</p>
+                                    </td>
+                                    <td>Выступление (Хар)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Intimidation">4</p>
+                                    </td>
+                                    <td>Запугивание (Хар)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="History">4</p>
+                                    </td>
+                                    <td>История (Инт)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="SleightOfHand">4</p>
+                                    </td>
+                                    <td>Ловкость рук (Лов)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Arcana">4</p>
+                                    </td>
+                                    <td>Магия (Инт)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Medicine">4</p>
+                                    </td>
+                                    <td>Медицина (Мдр)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Deception">4</p>
+                                    </td>
+                                    <td>Обман (Хар)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Nature">4</p>
+                                    </td>
+                                    <td>Природа (Инт)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Insight">4</p>
+                                    </td>
+                                    <td>Проницательность (Мдр)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Religion">4</p>
+                                    </td>
+                                    <td>Религия (Инт)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Stealth">4</p>
+                                    </td>
+                                    <td>Скрытность (Лов)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="Persuasion">4</p>
+                                    </td>
+                                    <td>Убеждение (Хар)</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox"></td>
+                                    <td>
+                                        <p class="AnimalHandling">4</p>
+                                    </td>
+                                    <td>Уход за животными (Мдр)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="armor_hits">
+                <div class="armor_initiative_speed">
+                    <div class="armor">
+                        <h3>КД</h3>
+                        <div class="armor_class">{{character.armor_class}}</div>
+                    </div>
+                    <div class="initiative">
+                        <h3>Инициатива</h3>
+                        <div class="initiative_val">{{character.initiative}}</div>
+                    </div>
+                    <div class="speed">
+                        <h3>Скорость</h3>
+                        <div class="speed_val">{{character.speed}}</div>
+                    </div>
+                </div>
+                <div class="hits">
+                    <div class="hits_max">
+                        <div class="hits_label">Максимум хитов</div>
+                        <div class="hits_value">{{character.max_hp}}</div>
+                    </div>
+                    <div class="hits_current">
+                        <div class="hits_label">Текущие хиты</div>
+                        <div class="hits_current_val">{{character.current_hp}}</div>
+                    </div>
+                    <div class="hits_time">
+                        <div class="hits_label">Временные хиты</div>
+                        <div class="hits_time_val">{{character.current_hp}}</div>
+                    </div>
+                </div>
+                <div class="hitdice_throws">
+                    <div class="hit_dice">
+                        <h3>Кость хитов</h3>
+                        <div class="hits_dice_val">1d10</div>
+                    </div>
+                    <div class="death_throws">
+                        <h3>Проверки от смерти</h3>
+                        <div class="death_throws_chk">
+                            <div class="hits_header_dst">Успехи</div>
+                            <div class="hits_ckbox">
+                                <input type="checkbox">
+                                <input type="checkbox">
+                                <input type="checkbox">
+                            </div>
+                            <div class="hits_header_dst">Провалы</div>
+                            <div class="hits_ckbox">
+                                <input type="checkbox">
+                                <input type="checkbox">
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="attacks">
+                    <h3>Атаки и заклинания</h3>
+                    <table class="attacks_table">
+                        <tr>
+                            <th>Название</th>
+                            <th>Бонус атаки</th>
+                            <th>Урон</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="ideals_perks">
+                <div class="traits">
+                    <div class="personal_traits">
+                        <h3>Черты характера</h3>
+                        <div class="personal_traits_val">Ворчун</div>
+                    </div>
+                    <div class="ideals">
+                        <h3>Идеалы</h3>
+                        <div class="personal_traits_val">Злоба</div>
+                    </div>
+                    <div class="loyality">
+                        <h3>Приверженности</h3>
+                        <div class="personal_traits_val">Драки</div>
+                    </div>
+                    <div class="wickness">
+                        <h3>Слабости</h3>
+                        <div class="personal_traits_val">Киви ;</div>
+                    </div>
+                </div>
+                <div class="perks">
+                    <h3>Умения</h3>
+                    <div class="all_perks">
+                        {% for ability in character.abilities %}
+                        <p>{{ability.name}}</p>
+                        <h5>{{ability.description}}</h5>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+{% endblock %}
