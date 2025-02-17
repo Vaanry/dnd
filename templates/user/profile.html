@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<div>
+
+    <h1>Профиль пользователя</h1>
+    <p><strong>ID:</strong> {{ user.id }}</p>
+    <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+    <p><strong>Дата регистрации:</strong> {{ user.reg_date }}</p>
+    <p><strong>Администратор:</strong> {{ "Да" if user.is_admin else "Нет" }}</p>
+    {% if profile == "my_profile" %}
+            <a class="nav-link" href="/user/my_characters">Мои персонажи</a>
+    {% else %}
+            <a class="nav-link" href="/user/users/{{ user.username }}/characters">Персонажи {{ user.username }}</a>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -2,8 +2,8 @@
 
 {% block crud_container %}
 
-<title>Мои персонажи</title>
-<h1>Мои персонажи</h1>
+<title>{% if profile == "my_profile" %}Мои персонажи{% else %}Персонажи {{username}}{% endif %}</title>
+<h1>{% if profile == "my_profile" %}Мои персонажи{% else %}Персонажи {{username}}{% endif %}</h1>
 <table border="1">
     <thead>
         <tr>
@@ -23,9 +23,16 @@
     <tbody>
         {% for character in characters %}
         <tr>
-            <td><a href="{{ url_for('my_character', name=character.name) }}">
+            <td>{% if profile == "my_profile" %}
+                <a href="{{ url_for('my_character', name=character.name) }}">
                 {{ character.name }}
-            </a></td>
+            </a>
+            {% else %}
+                <a href="{{ url_for('user_character', username=username, name=character.name) }}">
+                    {{ character.name }}
+                </a>
+            {% endif %}
+        </td>
             <td>{{ character.race }}</td>
             <td>{{ character.gender }}</td>
             <td>{{ character.character_class }}</td>
@@ -47,7 +54,7 @@
                 </ul>
             </td>
             <td>{{ character.notes }}</td>
-            <td>{{ character.background }}</td>
+            <td>{{ character.background.name }}</td>
         </tr>
         {% endfor %}
     </tbody>

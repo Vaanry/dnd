@@ -1,0 +1,10 @@
+{% extends "main.html" %}
+
+{% block crud_container %}
+<h1>Список пользователей</h1>
+{% for user in users %}
+<div>
+    <a class="nav-link" href="/user/users/{{ user.username }}">{{ user.username }}</a>
+    </div>
+{% endfor %}
+{% endblock %}

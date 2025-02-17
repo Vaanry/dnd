@@ -95,6 +95,16 @@ class SkillProficiencies(BaseModel):
     other: List[str]  # Например, ["Perception", "Athletics"]
 
 
+class CharacterBackground(BaseModel):
+    name: str  # Название происхождения, например, "Acolyte" (Послушник)
+    skill_proficiencies: List[str]  # Владение навыками
+    tool_proficiencies: Optional[List[str]] = (
+        None  # Владение инструментами (опционально)
+    )
+    languages: Optional[List[str]] = None  # Языки (опционально, от 0 до 3)
+    equipment: List[str]  # Стартовое снаряжение
+
+
 class Character(BaseModel):
     owner: int  # Владелец персонажа
     name: str  # Имя персонажа
@@ -104,7 +114,7 @@ class Character(BaseModel):
     character_class: str  # Ссылка на модель класса
     subclass: str  # Ссылка на подкласс (если есть)
     level: int  # Уровень персонажа
-    background: str  # Происхождение персонажа
+    background: CharacterBackground  # Происхождение персонажа
     alignment: str  # Мировоззрение, например, "Chaotic Good"
     proficiency_bonus: int  # Бонус умения
     stats: Stats  # Основные характеристики

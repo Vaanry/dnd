@@ -1,8 +1,9 @@
 from typing import List
 
-from mongobase.mongo_config import characters, classes, races
+from mongobase.mongo_config import backgrounds, characters, classes, races
 from mongobase.rules import modificators, proficiency_bonuses
-from mongobase.schemas import Character, SkillProficiencies, Stats
+from mongobase.schemas import (Character, CharacterBackground,
+                               SkillProficiencies, Stats)
 
 
 def get_races() -> List:
@@ -33,10 +34,24 @@ def get_class_skills(class_name: str) -> List:
     return character_skills["skills"]
 
 
+def get_backgrounds() -> List:
+    """Get all avialable backgrounds from database"""
+    all_backgrounds = [background for background in backgrounds.find({}, {"_id": 0})]
+    return all_backgrounds
+
+
+def get_background_skills(background_name: str) -> List:
+    character_skills = backgrounds.find_one(
+        {"name": background_name}, {"skill_proficiencies": 1, "_id": 0}
+    )
+    return character_skills["skill_proficiencies"]
+
+
 def create_char(char: dict):
     """Takes a dict, create Character and insert it in database"""
     character_class = classes.find_one({"name": char["character_class"]})
     character_race = races.find_one({"name": char["race"]})
+    character_rbackground = backgrounds.find_one({"name": char["background"]})
 
     for ability in character_race["ability_score_bonuses"]:
         name = ability["ability"]
@@ -63,7 +78,7 @@ def create_char(char: dict):
         character_class=character_class["name"],
         subclass=" ",
         level=char["level"],
-        background=char["background"],
+        background=character_rbackground,
         alignment=char["alignment"],
         proficiency_bonus=proficiency_bonuses[char["level"]],
         stats=stats,

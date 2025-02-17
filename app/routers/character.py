@@ -8,9 +8,10 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from mongobase.create_char import (create_char, get_class_skills, get_classes,
-                                   get_races, get_subraces)
-from mongobase.schemas import Stats
+from mongobase.create_char import (create_char, get_background_skills,
+                                   get_backgrounds, get_class_skills,
+                                   get_classes, get_races, get_subraces)
+from mongobase.schemas import CharacterBackground, Stats
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import redisbase
@@ -77,15 +78,40 @@ async def create_class(
     )
 
 
-@router.post("/next/", response_class=HTMLResponse)
-async def choose_skills(
+@router.post("/background/", response_class=HTMLResponse)
+async def create_background(
     request: Request,
     get_user: Annotated[dict, Depends(get_current_user)],
     class_name: str = Form(...),
 ):
-    """Choose class skills"""
+    """Choose background"""
     user_id = get_user.get("id")
     redisbase.set_char_class(user_id, class_name)
+    all_backgrounds = get_backgrounds()
+    return templates.TemplateResponse(
+        "character.html",
+        {
+            "request": request,
+            "all_backgrounds": all_backgrounds,
+            "choose": "background",
+        },
+    )
+
+
+@router.post("/next/", response_class=HTMLResponse)
+async def choose_skills(
+    request: Request,
+    get_user: Annotated[dict, Depends(get_current_user)],
+    background_name: str = Form(...),
+):
+    """Choose class skills"""
+    user_id = get_user.get("id")
+    redisbase.set_char_background(user_id, background_name)
+    background_skills = get_background_skills(background_name)
+    print(background_skills)
+    redisbase.delete_class_skills(user_id)
+    redisbase.set_class_skills(user_id, background_skills)
+    class_name = redisbase.get_char_class(user_id)
     skills = get_class_skills(class_name)
     return templates.TemplateResponse(
         "character_modification.html",
@@ -163,7 +189,7 @@ async def save_char(
         },
         "skills": char_info["char_skills"],
         "level": 1,
-        "background": "Бомж",
+        "background": char_info["char_background"],
         "notes": notes,
     }
     create_char(char)

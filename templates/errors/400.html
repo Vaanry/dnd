@@ -2,10 +2,10 @@
 
 {% block crud_container %}
 
-    <title>Ошибка 401 - Доступ запрещен</title>
+    <title>Ошибка {{status}}</title>
 
 <body>
-    <h1>Ошибка 401</h1>
+    <h1>Ошибка {{status}}</h1>
     <p>{{ detail }}</p>
     <a href="/">Вернуться на главную</a>
 </body>

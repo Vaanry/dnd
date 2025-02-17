@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <link rel="icon" href="/static/images/favicon.ico" type="image">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DND Project FastAPI</title>
 
@@ -17,6 +18,7 @@
         <div class="logo"><a href="/"><img src="/static/images/logo.png"></img></a></div>
         <div class="user-options">
             {% if request.state.user %}
+            <a href="/user/profile">Профиль</a> | 
             <a href="/user/my_characters">Мои персонажи</a> | 
             <a href="/auth/logout">Выход</a>
             {% else %}
@@ -36,7 +38,7 @@
     </main>
     <footer>
         <div class="footer">
-            <p>&copy; 2025 О нас | Контакты | Политика конфиденциальности | <a href="/docs">Документация</a></p>
+            <p>&copy; 2025 О нас | Контакты | Политика конфиденциальности | <a href="/docs">Документация</a>| <a href="/user/users">Пользователи</a></p>
             <div>
     </footer>
 </body>

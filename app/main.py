@@ -1,8 +1,9 @@
 from fastapi import FastAPI, HTTPException, status
 from fastapi.requests import Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi_csrf_protect.exceptions import CsrfProtectError
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.routers import main_router
@@ -49,20 +50,17 @@ app.include_router(main_router)
 
 @app.exception_handler(HTTPException)
 async def custom_http_exception_handler(request: Request, exc: HTTPException):
-    if exc.status_code == 401:
+    if exc.status_code in (401, 404):
         return templates.TemplateResponse(
-            "errors/401.html",
-            {"request": request, "detail": exc.detail},
-            status_code=401,
+            "errors/400.html",
+            {"request": request, "detail": exc.detail, "status": exc.status_code},
+            status_code=exc.status_code,
         )
+
     return HTMLResponse(
         content=f"<h1>{exc.status_code} - {exc.detail}</h1>",
         status_code=exc.status_code,
     )
-
-
-from fastapi.responses import JSONResponse
-from fastapi_csrf_protect.exceptions import CsrfProtectError
 
 
 @app.exception_handler(CsrfProtectError)

@@ -56,7 +56,7 @@
     <p><strong>Класс:</strong> {{ character.character_class }}{% if character.subclass != " " %} ({{ character.subclass }}){% endif %}</p>
     <p><strong>Уровень:</strong> {{ character.level }}</p>
     <p><strong>Мировоззрение:</strong> {{ character.alignment }}</p>
-    <p><strong>Предыстория:</strong> {{ character.background }}</p>
+    <p><strong>Предыстория:</strong> {{ character.background.name }}</p>
     <p><strong>Пол:</strong> {{ character.gender }}</p>
 
     <div class="stats">

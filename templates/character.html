@@ -225,8 +225,8 @@
     </div>
     <button type="submit">Далее</button>
 </form>
-{% else %}
-<form action="/character/next/" method="post">
+{% elif choose=="class" %}
+<form action="/character/background/" method="post">
     <h1>Заголовок видимый при выборе класса</h1>
     <div class="character-creation">
         <div class="left-panel">
@@ -251,6 +251,38 @@
     </div>
     <button type="submit">Далее</button>
 </form>
+{% else %}
+<form action="/character/next/" method="post">
+    <h1>Заголовок видимый при выборе происхождения</h1>
+    <div class="character-creation">
+        <div class="left-panel">
+            <label for="backgroundDropdown">Происхождение:</label>
+            <select name="background_name" id="backgroundDropdown">
+                <option value="" selected disabled>Выберите происхождение</option>
+                {% for background in all_backgrounds %}
+                <option value="{{ background.name }}">
+                    {{ background.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="right-panel" id="description-container">
+            <p id="defaultMessage">Выберите происхождение, чтобы увидеть описание.</p>
+            <div id="subraceDetails" style="display: none;">
+                <p><strong id="subraceName"></strong></p>
+                <div id="subraceDescription"></div>
+                <br>
+                <div id="subraceAbilities"></div>
+                <div id="subraceSpeed"></div>
+                <br>
+                <div id="subraceLanguages"></div>
+                <div id="subraceTraits"></div>
+            </div>
+        </div>
+    </div>
+    <button type="submit">Далее</button>
+    </form>
 {% endif %}
 
 
