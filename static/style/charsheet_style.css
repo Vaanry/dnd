@@ -43,20 +43,92 @@
 
 .all_things {
     display: flex;
-    border: 1px solid black;
-    padding: 10px;
-}
-
-.stats_column {
-    flex-wrap: wrap;
+    flex-direction: column 3;
     justify-content: space-between;
     border: 1px solid black;
     padding: 10px;
 }
 
-.stats-box_stats {
+.characteristics {
+    display: flex;
+    flex-direction: column 2;
+    justify-content: space-between;
     border: 1px solid black;
     padding: 10px;
+}
+
+.passive_perception {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    margin-left: 0;
+}
+
+.passive_perception h4 {
+    color: #777;
+}
+
+.passive_perception_val {
+    font-size: 26px;
+    text-align: center;
+    border: 1px solid black;
+    padding: 10px;
+    padding-right: 50px;
+}
+
+.other_languages {
+    display: flex;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.other_languages label {
+    text-align: left;
+    top: 3px;
+    left: 3px;
+    font-size: 16px;
+    color: #777;
+    padding: 0 3px;
+    white-space: nowrap;
+}
+
+.other_languages_val {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.language {
+    display: flex;
+    padding-left: 10px;
+}
+
+.stats_column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgb(0, 0, 0);
+    padding: 10px;
+}
+
+.stats_box {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 10px;
+    align-items: center;
+}
+
+.stats_box label {
+    font-size: 16px;
+    color: #777;
+    text-align: center;
 }
 
 .bonuses_column {
@@ -117,6 +189,9 @@ td:first-child input[type="checkbox"] {
 
 
 .armor_hits {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: 1px solid black;
     padding: 10px;
 }
@@ -197,7 +272,6 @@ td:first-child input[type="checkbox"] {
 
 .attacks {
     border: 1px solid black;
-    padding: 10px;
 }
 
 .attacks_table {
@@ -208,6 +282,72 @@ td:first-child input[type="checkbox"] {
 .attacks_table input {
     background-color: transparent;
     padding: 10px;
+}
+
+.equipment {
+    border: 1px solid black;
+}
+
+.all_equipment {
+    display: flex;
+    text-align: center;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.money {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+}
+
+.money p {
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.money_val {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+}
+
+.money_val p {
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 3px;
+}
+
+.equipment_items {
+    display: flex;
+    border: 1px solid black;
+    padding: 10px;
+    flex: auto;
+}
+
+.equipment_items label {
+    color: #777;
+}
+
+
+.equipment_item {
+    text-align: left;
+}
+
+.equipment_item_name {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 3px;
+}
+
+.equipment_item_description {
+    text-align: left;
+    padding-left: 10px;
+}
+
+.description_item {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 3px;
 }
 
 .ideals_perks {

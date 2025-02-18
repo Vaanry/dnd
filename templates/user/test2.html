@@ -40,244 +40,261 @@
             </div>
         </div>
         <div class="all_things">
-            <div class="stats_column">
-                <div class="stats-box_stats">
-                    <label>Сила</label>
-                    <div class="stats_value">{{character.stats.strength}}</div>
-                    <div class="stats-mod">
-                        <p>+4</p>
+            <div class="first_column">
+                <div class="characteristics">
+                    <div class="stats_column">
+                        <div class="stats_box">
+                            <label>Сила</label>
+                            <div class="stats_val">{{character.stats.strength}}</div>
+                            <div class="stats_mod">
+                                <p>+4</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="stats_box">
+                            <label>Ловкость</label>
+                            <div class="stats_val">{{character.stats.dexterity}}</div>
+                            <div class="stats_mod">
+                                <p>+4</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="stats_box">
+                            <label>Телосложение</label>
+                            <div class="stats_val">{{character.stats.constitution}}</div>
+                            <div class="stats_mod">
+                                <p>+4</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="stats_box">
+                            <label>Интелект</label>
+                            <div class="stats_val">{{character.stats.intelligence}}</div>
+                            <div class="stats_mod">
+                                <p>+4</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="stats_box">
+                            <label>Мудрость</label>
+                            <div class="stats_val">{{character.stats.wisdom}}</div>
+                            <div class="stats_mod">
+                                <p>+4</p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="stats_box">
+                            <label>Харизма</label>
+                            <div class="stats_val">{{character.stats.charisma}}</div>
+                            <div class="stats_mod">
+                                <p>+4</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bonuses_column">
+                        <div class="bonuses_value">
+                            <div class="inspiration">
+                                <h2>Вдохновение</h2>
+                                <div class="inspiration_val">3</div>
+                            </div>
+                            <div class="proficiency_bonus">
+                                <h2>Бонус мастерства</h2>
+                                <div class="proficiency_bonus_val">{{character.proficiency_bonus}}</div>
+                            </div>
+                            <div class="modifier">
+                                <table class="save_throws">
+                                    <h3>Спасброски</h3>
+                                    <tbody>
+                                        <tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Strength">4</p>
+                                            </td>
+                                            <td>Сила</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Dexterity">4</p>
+                                            </td>
+                                            <td>Ловкость</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Constitution">4</p>
+                                            </td>
+                                            <td>Телосложение</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Intelligence">4</p>
+                                            </td>
+                                            <td>Интеллект</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Wisdom">4</p>
+                                            </td>
+                                            <td>Мудрость</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Charisma">4</p>
+                                            </td>
+                                            <td>Харизма</td>
+                                        </tr>
+                                </table>
+                                <table class="skills">
+                                    <h3>Навыки</h3>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Acrobatics">4</p>
+                                            </td>
+                                            <td>Акробатика (Лов)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Analysis">4</p>
+                                            </td>
+                                            <td>Анализ (Инт)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Athletics">4</p>
+                                            </td>
+                                            <td>Атлетика (Сил)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Perception">4</p>
+                                            </td>
+                                            <td>Внимательность (Мдр)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Survival">4</p>
+                                            </td>
+                                            <td>Выживание (Мдр)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Performance">4</p>
+                                            </td>
+                                            <td>Выступление (Хар)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Intimidation">4</p>
+                                            </td>
+                                            <td>Запугивание (Хар)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="History">4</p>
+                                            </td>
+                                            <td>История (Инт)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="SleightOfHand">4</p>
+                                            </td>
+                                            <td>Ловкость рук (Лов)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Arcana">4</p>
+                                            </td>
+                                            <td>Магия (Инт)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Medicine">4</p>
+                                            </td>
+                                            <td>Медицина (Мдр)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Deception">4</p>
+                                            </td>
+                                            <td>Обман (Хар)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Nature">4</p>
+                                            </td>
+                                            <td>Природа (Инт)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Insight">4</p>
+                                            </td>
+                                            <td>Проницательность (Мдр)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Religion">4</p>
+                                            </td>
+                                            <td>Религия (Инт)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Stealth">4</p>
+                                            </td>
+                                            <td>Скрытность (Лов)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="Persuasion">4</p>
+                                            </td>
+                                            <td>Убеждение (Хар)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="checkbox"></td>
+                                            <td>
+                                                <p class="AnimalHandling">4</p>
+                                            </td>
+                                            <td>Уход за животными (Мдр)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <div class="stats-box_stats">
-                    <label>Ловкость</label>
-                    <div class="stats_value">{{character.stats.dexterity}}</div>
-                    <div class="stats-mod">
-                        <p>+4</p>
+                <div class="passive_perception">
+                    <div>
+                        <h4>Пассивная внимательность</h4>
                     </div>
+                    <div class="passive_perception_val">10</div>
                 </div>
-                <br>
-                <div class="stats-box_stats">
-                    <label>Телосложение</label>
-                    <div class="stats_value">{{character.stats.constitution}}</div>
-                    <div class="stats-mod">
-                        <p>+4</p>
-                    </div>
-                </div>
-                <br>
-                <div class="stats-box_stats">
-                    <label>Интелект</label>
-                    <div class="stats_value">{{character.stats.intelligence}}</div>
-                    <div class="stats-mod">
-                        <p>+4</p>
-                    </div>
-                </div>
-                <br>
-                <div class="stats-box_stats">
-                    <label>Мудрость</label>
-                    <div class="stats_value">{{character.stats.wisdom}}</div>
-                    <div class="stats-mod">
-                        <p>+4</p>
-                    </div>
-                </div>
-                <br>
-                <div class="stats-box_stats">
-                    <label>Харизма</label>
-                    <div class="stats_value">{{character.stats.charisma}}</div>
-                    <div class="stats-mod">
-                        <p>+4</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bonuses_column">
-                <div class="bonuses_value">
-                    <div class="inspiration">
-                        <h2>Вдохновение</h2>
-                        <div class="inspiration_val">3</div>
-                    </div>
-                    <div class="proficiency_bonus">
-                        <h2>Бонус мастерства</h2>
-                        <div class="proficiency_bonus_val">{{character.proficiency_bonus}}</div>
-                    </div>
-                    <div class="modifier">
-                        <table class="save_throws">
-                            <h3>Спасброски</h3>
-                            <tbody>
-                                <tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Strength">4</p>
-                                    </td>
-                                    <td>Сила</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Dexterity">4</p>
-                                    </td>
-                                    <td>Ловкость</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Constitution">4</p>
-                                    </td>
-                                    <td>Телосложение</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Intelligence">4</p>
-                                    </td>
-                                    <td>Интеллект</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Wisdom">4</p>
-                                    </td>
-                                    <td>Мудрость</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Charisma">4</p>
-                                    </td>
-                                    <td>Харизма</td>
-                                </tr>
-                        </table>
-                        <table class="skills">
-                            <h3>Навыки</h3>
-                            <tbody>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Acrobatics">4</p>
-                                    </td>
-                                    <td>Акробатика (Лов)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Analysis">4</p>
-                                    </td>
-                                    <td>Анализ (Инт)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Athletics">4</p>
-                                    </td>
-                                    <td>Атлетика (Сил)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Perception">4</p>
-                                    </td>
-                                    <td>Внимательность (Мдр)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Survival">4</p>
-                                    </td>
-                                    <td>Выживание (Мдр)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Performance">4</p>
-                                    </td>
-                                    <td>Выступление (Хар)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Intimidation">4</p>
-                                    </td>
-                                    <td>Запугивание (Хар)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="History">4</p>
-                                    </td>
-                                    <td>История (Инт)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="SleightOfHand">4</p>
-                                    </td>
-                                    <td>Ловкость рук (Лов)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Arcana">4</p>
-                                    </td>
-                                    <td>Магия (Инт)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Medicine">4</p>
-                                    </td>
-                                    <td>Медицина (Мдр)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Deception">4</p>
-                                    </td>
-                                    <td>Обман (Хар)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Nature">4</p>
-                                    </td>
-                                    <td>Природа (Инт)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Insight">4</p>
-                                    </td>
-                                    <td>Проницательность (Мдр)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Religion">4</p>
-                                    </td>
-                                    <td>Религия (Инт)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Stealth">4</p>
-                                    </td>
-                                    <td>Скрытность (Лов)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="Persuasion">4</p>
-                                    </td>
-                                    <td>Убеждение (Хар)</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox"></td>
-                                    <td>
-                                        <p class="AnimalHandling">4</p>
-                                    </td>
-                                    <td>Уход за животными (Мдр)</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="other_languages">
+                    <div><label>Другие языки</label></div>
+                    <div class="other_languages_val">
+                        <div class="language">Эльфийский</div>
+                        <div class="language">Гномийский</div>
                     </div>
                 </div>
             </div>
@@ -368,6 +385,46 @@
                         </tr>
                     </table>
                 </div>
+                <div class="equipment">
+                    <h3>Снаряжение</h3>
+                    <div class="all_equipment">
+                        <div class="money">
+                            <p>Cu</p>
+                            <p>Si</p>
+                            <p>El</p>
+                            <p>Gl</p>
+                            <p>Pl</p>
+                        </div>
+                        <div class="money_val">
+                            <p>1000</p>
+                            <p>10</p>
+                            <p>10</p>
+                            <p>10</p>
+                            <p>10</p>
+                        </div>
+                        <div class="equipment_items">
+                            <div class="equipment_item">
+                                <label>Предмет</label>
+                                <div class="equipment_item_name">Меч</div>
+                                <div class="equipment_item_name"></div>
+                                <div class="equipment_item_name"></div>
+                                <div class="equipment_item_name"></div>
+                                <div class="equipment_item_name"></div>
+                                <div class="equipment_item_name"></div>
+
+                            </div>
+                            <div class="equipment_item_description">
+                                <label>Описание</label>
+                                <div class="description_item">1d6+1</div>
+                                <div class="description_item"></div>
+                                <div class="description_item"></div>
+                                <div class="description_item"></div>
+                                <div class="description_item"></div>
+                                <div class="description_item"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="ideals_perks">
                 <div class="traits">
@@ -398,14 +455,7 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
         </div>
-    </div>
 </body>
 
 </html>
