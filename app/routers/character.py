@@ -9,9 +9,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from mongobase.create_char import (create_char, get_background_skills,
-                                   get_backgrounds, get_class_skills,
-                                   get_classes, get_races, get_subraces, get_class_equipment)
-from mongobase.schemas import CharacterBackground, Stats, WeaponItem, ArmorItem, EquipmentItem
+                                   get_backgrounds, get_class_equipment,
+                                   get_class_skills, get_classes, get_races,
+                                   get_subraces)
+from mongobase.schemas import (ArmorItem, CharacterBackground, EquipmentItem,
+                               Stats, WeaponItem)
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import redisbase
@@ -160,7 +162,11 @@ async def add_dices(
 
     return templates.TemplateResponse(
         "char.html",
-        {"request": request, "char_info": char_info, "class_equipment": class_equipment},
+        {
+            "request": request,
+            "char_info": char_info,
+            "class_equipment": class_equipment,
+        },
     )
 
 
@@ -173,23 +179,25 @@ async def save_char(
 ):
     user_id = get_user.get("id")
     char_info = redisbase.get_char_info(user_id)
-    class_equipment = get_class_equipment(char_info["char_class"])[int(selected_equipment)-1]
-    
-    if class_equipment['armor'] is not None:
-        armor = [item['name'] for item in class_equipment['armor']]
+    class_equipment = get_class_equipment(char_info["char_class"])[
+        int(selected_equipment) - 1
+    ]
+
+    if class_equipment["armor"] is not None:
+        armor = [item["name"] for item in class_equipment["armor"]]
     else:
         armor = None
-        
-    if class_equipment['weapon'] is not None:
-        weapon = [item['name'] for item in class_equipment['weapon']]
+
+    if class_equipment["weapon"] is not None:
+        weapon = [item["name"] for item in class_equipment["weapon"]]
     else:
         weapon = None
-        
-    if class_equipment['other'] is not None:
-        equipment = [item['name'] for item in class_equipment['other']]
+
+    if class_equipment["other"] is not None:
+        equipment = [item["name"] for item in class_equipment["other"]]
     else:
         equipment = []
-    
+
     char = {
         "owner": user_id,
         "name": char_info["char_name"],
@@ -211,10 +219,10 @@ async def save_char(
         "background": char_info["char_background"],
         "armor": armor,
         "weapon": weapon,
-        "equipment":equipment,
+        "equipment": equipment,
         "notes": notes,
     }
-    
+
     create_char(char)
     redisbase.delete_char_info(user_id)
     return RedirectResponse(

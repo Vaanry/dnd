@@ -61,14 +61,16 @@ def create_char(char: dict):
     background_equipment = [item["name"] for item in character_background["equipment"]]
     char_languages = set()
 
-    if char["subrace"] != "No subrace": # char["subrace"]
-        result = races.find_one({"subraces": {"$elemMatch": {"name": char["subrace"]}}},
-    {"languages": 1, "_id": 0})
+    if char["subrace"] != "No subrace":  # char["subrace"]
+        result = races.find_one(
+            {"subraces": {"$elemMatch": {"name": char["subrace"]}}},
+            {"languages": 1, "_id": 0},
+        )
         subrace_lang = result["languages"]
         char_languages.update(subrace_lang)
     else:
         char_languages.update(character_race["languages"])
-        
+
     if character_background["languages"] is not None:
         char_languages.update(character_background["languages"])
 
@@ -106,7 +108,7 @@ def create_char(char: dict):
         abilities=character_class["abilities"],
         armor=char["armor"],
         weapon=char["weapon"],
-        equipment=char["equipment"]+background_equipment,
+        equipment=char["equipment"] + background_equipment,
         current_hp=hp,
         max_hp=hp,
         armor_class=10 + modificators[char["stats"]["Dexterity"]],

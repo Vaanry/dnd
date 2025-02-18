@@ -1,5 +1,6 @@
+from mongobase.items import (barbarian_set_1, barbarian_set_2, cleric_1,
+                             cleric_2, rogue_1, rogue_2)
 from mongobase.schemas import Ability, CharacterClass, Feature, Subclass
-from mongobase.items import barbarian_set_1, barbarian_set_2
 
 cleric_class = CharacterClass(
     name="Cleric",
@@ -10,49 +11,45 @@ cleric_class = CharacterClass(
     saving_throws=["Wisdom", "Charisma"],
     armor_proficiencies=["Light Armor", "Medium Armor", "Shields"],
     weapon_proficiencies=["Simple Weapons"],
-    starting_equipment=["Mace", "Shield", "Holy Symbol", "Explorer's Pack"],
+    starting_equipment=[cleric_1, cleric_2],
     abilities=[
-        Ability(
-            name="Divine Domain",
-            description="Choose a domain related to your deity, granting unique abilities.",
-            level_acquired=1,
-        ),
-        Ability(
-            name="Channel Divinity",
-            description="Invoke divine energy to perform powerful effects.",
-            level_acquired=2,
-        ),
+            {"name": "Divine Domain",
+            "description": "Choose a domain related to your deity, granting unique abilities.",
+            "level_acquired": 1,}
+        ,
+            {"name": "Channel Divinity",
+            "description": "Invoke divine energy to perform powerful effects.",
+            "level_acquired": 2,}
+        ,
     ],
     features=[
-        Feature(
-            name="Spellcasting",
-            level_acquired=1,
-            description="Allows the casting of divine spells.",
-        ),
-        Feature(
-            name="Divine Intervention",
-            level_acquired=10,
-            description="Request your deity's aid in critical moments.",
-        ),
+            {"name": "Spellcasting",
+            "level_acquired": 1,
+            "description": "Allows the casting of divine spells."},
+        
+            {"name": "Divine Intervention",
+            "level_acquired": 10,
+            "description": "Request your deity's aid in critical moments."},
+        
     ],
     subclasses=[
-        Subclass(
-            name="Life Domain",
-            description="Focused on healing and sustaining life.",
-            features=[
-                Feature(
-                    name="Disciple of Life",
-                    level_acquired=1,
-                    description="Boosts healing spells' effectiveness.",
-                ),
-                Feature(
-                    name="Preserve Life",
-                    level_acquired=2,
-                    description="Restore hit points to creatures within range.",
-                ),
+        {
+            "name": "Life Domain",
+            "description": "Focused on healing and sustaining life.",
+            "features": [
+
+                    {"name": "Disciple of Life",
+                    "level_acquired": 1,
+                    "description": "Boosts healing spells' effectiveness."}
+                ,
+
+                    {"name": "Preserve Life",
+                    "level_acquired": 2,
+                    "description": "Restore hit points to creatures within range."}
+                ,
             ],
-        )
-    ],
+        }
+    ]
 )
 
 rogue_class = CharacterClass(
@@ -70,53 +67,48 @@ rogue_class = CharacterClass(
         "Rapiers",
         "Shortswords",
     ],
-    starting_equipment=[
-        "Rapier",
-        "Shortbow and Quiver of 20 Arrows",
-        "Burglar's Pack",
-        "Thieves' Tools",
-    ],
+    starting_equipment=[rogue_1, rogue_2],
     abilities=[
-        Ability(
-            name="Expertise",
-            description="Double your proficiency bonus for chosen skills.",
-            level_acquired=1,
-        ),
-        Ability(
-            name="Sneak Attack",
-            description="Deal extra damage to a creature you hit with an attack when certain conditions are met.",
-            level_acquired=1,
-        ),
+        {
+            "name": "Expertise",
+            "description": "Double your proficiency bonus for chosen skills.",
+            "level_acquired": 1,
+        },
+        {
+            "name": "Sneak Attack",
+            "description": "Deal extra damage to a creature you hit with an attack when certain conditions are met.",
+            "level_acquired": 1,
+        },
     ],
     features=[
-        Feature(
-            name="Cunning Action",
-            level_acquired=2,
-            description="Take a bonus action to Dash, Disengage, or Hide.",
-        ),
-        Feature(
-            name="Uncanny Dodge",
-            level_acquired=5,
-            description="Reduce damage from attacks you can see.",
-        ),
+        {
+            "name": "Cunning Action",
+            "level_acquired": 2,
+            "description": "Take a bonus action to Dash, Disengage, or Hide.",
+        },
+        {
+            "name": "Uncanny Dodge",
+            "level_acquired": 5,
+            "description": "Reduce damage from attacks you can see.",
+        },
     ],
     subclasses=[
-        Subclass(
-            name="Thief",
-            description="Specialized in nimbleness and acquiring objects.",
-            features=[
-                Feature(
-                    name="Fast Hands",
-                    level_acquired=3,
-                    description="Use the Use an Object action as a bonus action.",
-                ),
-                Feature(
-                    name="Second-Story Work",
-                    level_acquired=3,
-                    description="Climb faster and jump farther.",
-                ),
+        {
+            "name": "Thief",
+            "description": "Specialized in nimbleness and acquiring objects.",
+            "features": [
+                {
+                    "name": "Fast Hands",
+                    "level_acquired": 3,
+                    "description": "Use the Use an Object action as a bonus action.",
+                },
+                {
+                    "name": "Second-Story Work",
+                    "level_acquired": 3,
+                    "description": "Climb faster and jump farther.",
+                },
             ],
-        )
+        }
     ],
 )
 

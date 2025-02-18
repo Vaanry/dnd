@@ -102,7 +102,8 @@ async def my_character(
 
 @router.get("/test2")
 async def my_character_test(
-    request: Request, get_user: Annotated[dict, Depends(get_current_user)]):
+    request: Request, get_user: Annotated[dict, Depends(get_current_user)]
+):
 
     id = get_user.get("id")
     character = get_user_character(id, "Onserey")
