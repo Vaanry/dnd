@@ -1,4 +1,8 @@
-.container {}
+.container {
+    /* background: url('/static/images/charsheet_img/skulls.png') bottom right;
+    background-repeat: no-repeat;
+    background-position: bottom right; */
+}
 
 .charsheet_header {
     display: flex;
@@ -8,10 +12,10 @@
     gap: 15px;
 }
 
-.logo {
+.logo_dnd {
     width: 80px;
     height: 80px;
-    background: url('/static/images/logo_charsheet.png') no-repeat center/cover;
+    background: url('/static/images/charsheet_img/logo.png') no-repeat center/contain;
     margin-right: 10px;
 }
 
@@ -21,16 +25,17 @@
     width: 135px;
     height: 55px;
     padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     text-align: center;
     justify-content: center;
     text-align: center;
+    background-image: url('/static/images/charsheet_img/name_box.png');
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 
 .top_info-box label {
-    text-align: left;
+    text-align: center;
     top: 3px;
     left: 3px;
     font-size: 12px;
@@ -144,6 +149,10 @@
 .bonuses_column {
     border: 1px solid black;
     padding: 10px;
+    background-image: url('/static/images/charsheet_img/stats_background.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .bonuses_value {

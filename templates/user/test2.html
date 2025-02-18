@@ -10,10 +10,10 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="charsheet_container">
         <h1>Персонаж {{character.name}} {{character.level}} уровня</h1>
         <div class="charsheet_header">
-            <div class="logo"></div>
+            <div class="logo_dnd"></div>
             <div class="top_info-box name">
                 <label>Имя персонажа</label>
                 <div class="value">{{character.name}}</div>
@@ -36,7 +36,7 @@
             </div>
             <div class="top_info-box expirience">
                 <label>Expirience</label>
-                <div class="value">1000</div>
+                <div class="value">{{character.experience}}</div>
             </div>
         </div>
         <div class="all_things">
