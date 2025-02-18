@@ -10,8 +10,8 @@ from fastapi.templating import Jinja2Templates
 
 from mongobase.create_char import (create_char, get_background_skills,
                                    get_backgrounds, get_class_skills,
-                                   get_classes, get_races, get_subraces)
-from mongobase.schemas import CharacterBackground, Stats
+                                   get_classes, get_races, get_subraces, get_class_equipment)
+from mongobase.schemas import CharacterBackground, Stats, WeaponItem, ArmorItem, EquipmentItem
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import redisbase
@@ -108,7 +108,6 @@ async def choose_skills(
     user_id = get_user.get("id")
     redisbase.set_char_background(user_id, background_name)
     background_skills = get_background_skills(background_name)
-    print(background_skills)
     redisbase.delete_class_skills(user_id)
     redisbase.set_class_skills(user_id, background_skills)
     class_name = redisbase.get_char_class(user_id)
@@ -155,10 +154,13 @@ async def add_dices(
     )
     user_id = get_user.get("id")
     redisbase.set_char_ctats(user_id, stats.model_dump())
+    class_name = redisbase.get_char_class(user_id)
+    class_equipment = get_class_equipment(class_name)
     char_info = redisbase.get_char_info(user_id)
+
     return templates.TemplateResponse(
         "char.html",
-        {"request": request, "char_info": char_info},
+        {"request": request, "char_info": char_info, "class_equipment": class_equipment},
     )
 
 
@@ -166,11 +168,28 @@ async def add_dices(
 async def save_char(
     request: Request,
     get_user: Annotated[dict, Depends(get_current_user)],
+    selected_equipment: str = Form(...),
     notes: str = Form(...),
 ):
     user_id = get_user.get("id")
     char_info = redisbase.get_char_info(user_id)
-
+    class_equipment = get_class_equipment(char_info["char_class"])[int(selected_equipment)-1]
+    
+    if class_equipment['armor'] is not None:
+        armor = [item['name'] for item in class_equipment['armor']]
+    else:
+        armor = None
+        
+    if class_equipment['weapon'] is not None:
+        weapon = [item['name'] for item in class_equipment['weapon']]
+    else:
+        weapon = None
+        
+    if class_equipment['other'] is not None:
+        equipment = [item['name'] for item in class_equipment['other']]
+    else:
+        equipment = []
+    
     char = {
         "owner": user_id,
         "name": char_info["char_name"],
@@ -179,6 +198,7 @@ async def save_char(
         "subrace": char_info["char_subrace"],
         "gender": char_info["char_gender"],
         "character_class": char_info["char_class"],
+        "level": 1,
         "stats": {
             "Strength": char_info["char_stats"]["strength"],
             "Dexterity": char_info["char_stats"]["dexterity"],
@@ -188,10 +208,13 @@ async def save_char(
             "Charisma": char_info["char_stats"]["charisma"],
         },
         "skills": char_info["char_skills"],
-        "level": 1,
         "background": char_info["char_background"],
+        "armor": armor,
+        "weapon": weapon,
+        "equipment":equipment,
         "notes": notes,
     }
+    
     create_char(char)
     redisbase.delete_char_info(user_id)
     return RedirectResponse(

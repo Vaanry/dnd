@@ -42,7 +42,6 @@ def set_char_background(user_id: int, background_name: str):
 
 def set_class_skills(user_id: int, class_skills: List):
     user_skills = f"{user_id}:skills"
-    print(class_skills)
     for skill in class_skills:
         r.sadd(user_skills, skill)
 
