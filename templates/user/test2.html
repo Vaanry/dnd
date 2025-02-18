@@ -352,38 +352,21 @@
                 </div>
                 <div class="attacks">
                     <h3>Атаки и заклинания</h3>
-                    <table class="attacks_table">
-                        <tr>
-                            <th>Название</th>
-                            <th>Бонус атаки</th>
-                            <th>Урон</th>
-                        </tr>
-                        <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                        </tr>
-                    </table>
+                    <div class="attacks_container">
+                        <div class="attacks_column column-left">Название</div>
+                        <div class="attacks_column column-middle">Бонус атаки</div>
+                        <div class="attacks_column column-right">Урон/Вид</div>
+                    </div>
+                    {% for weapon in weapons %}
+                    <div class="attacks_container">
+                        <div class="attacks_column column-left">{{ weapon.name }}</div>
+                        <div class="attacks_column column-middle">+4</div>
+                        <div class="attacks_column column-right">{% for dmg in weapon.damage %}
+                            {{ dmg.amount }} {{ dmg.damage_type }}{% if not loop.last %} + {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
                 <div class="equipment">
                     <h3>Снаряжение</h3>

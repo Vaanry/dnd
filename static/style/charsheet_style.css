@@ -213,6 +213,7 @@ td:first-child input[type="checkbox"] {
     flex-direction: column;
     justify-content: space-between;
     padding: 10px;
+    border: 1px solid black;
 }
 
 .armor_initiative_speed {
@@ -296,12 +297,37 @@ td:first-child input[type="checkbox"] {
 .attacks_table {
     border: 1px solid black;
     padding: 10px;
+    display: flex;
+    flex-direction: column 3;
+    text-align: center;
+    width: 100%;
 }
 
-.attacks_table input {
-    background-color: transparent;
-    padding: 10px;
+.attacks_container {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
 }
+
+.attacks_column {
+    padding: 5px;
+}
+
+.column-left {
+    width: 40%;
+    text-align: left;
+}
+
+.column-middle {
+    width: 20%;
+    text-align: center;
+}
+
+.column-right {
+    width: 40%;
+    text-align: right;
+}
+
 
 .equipment {
     border: 1px solid black;
@@ -371,6 +397,9 @@ td:first-child input[type="checkbox"] {
 
 .ideals_perks {
     padding: 10px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
 }
 
 .traits {
@@ -381,4 +410,5 @@ td:first-child input[type="checkbox"] {
 .perks {
     border: 1px solid black;
     padding: 10px;
+    flex-grow: 1;
 }

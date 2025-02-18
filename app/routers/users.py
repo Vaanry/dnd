@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.db_depends import get_db
 from app.models import Users
 from app.schemas import User
-from mongobase.characters import get_user_character, get_user_characters
+from mongobase.characters import get_user_character, get_user_characters, get_weapon
 from mongobase.schemas import Character
 
 from .auth import get_current_user
@@ -85,21 +85,6 @@ async def my_characters(
 # тестовая страница +
 
 
-@router.get("/test")
-async def my_character(
-    request: Request, get_user: Annotated[dict, Depends(get_current_user)]
-):
-
-    id = get_user.get("id")
-
-    return templates.TemplateResponse("user/test.html", {"request": request})
-
-
-# тестовая страница -
-
-# тестовая страница +
-
-
 @router.get("/test2")
 async def my_character_test(
     request: Request, get_user: Annotated[dict, Depends(get_current_user)]
@@ -107,9 +92,11 @@ async def my_character_test(
 
     id = get_user.get("id")
     character = get_user_character(id, "Onserey")
+    weapons = [get_weapon(item) for item in character.get("weapon")]
     return templates.TemplateResponse(
-        "user/test2.html", {"request": request, "character": character}
+        "user/test2.html", {"request": request, "character": character, "weapons": weapons}
     )
+
 
 
 # тестовая страница -
