@@ -11,7 +11,7 @@
 
 <body>
     <div class="container">
-        <h1>Персонаж {{character.name}}</h1>
+        <h1>Персонаж {{character.name}} {{character.level}} уровня</h1>
         <div class="charsheet_header">
             <div class="logo"></div>
             <div class="top_info-box name">
@@ -301,7 +301,7 @@
             <div class="armor_hits">
                 <div class="armor_initiative_speed">
                     <div class="armor">
-                        <h3>КД</h3>
+                        <h3>Armor</h3>
                         <div class="armor_class">{{character.armor_class}}</div>
                     </div>
                     <div class="initiative">
@@ -405,22 +405,16 @@
                         <div class="equipment_items">
                             <div class="equipment_item">
                                 <label>Предмет</label>
-                                <div class="equipment_item_name">Меч</div>
-                                <div class="equipment_item_name"></div>
-                                <div class="equipment_item_name"></div>
-                                <div class="equipment_item_name"></div>
-                                <div class="equipment_item_name"></div>
-                                <div class="equipment_item_name"></div>
+                                {% for equip in character.equipment %}
+                                <div class="equipment_item_name">{{equip}}</div>
+                                {% endfor %}
 
                             </div>
                             <div class="equipment_item_description">
                                 <label>Описание</label>
-                                <div class="description_item">1d6+1</div>
-                                <div class="description_item"></div>
-                                <div class="description_item"></div>
-                                <div class="description_item"></div>
-                                <div class="description_item"></div>
-                                <div class="description_item"></div>
+                                {% for equip in character.equipment %}
+                                <div class="equipment_item_name">{{equip}}</div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
