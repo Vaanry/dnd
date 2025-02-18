@@ -34,6 +34,11 @@ def get_class_skills(class_name: str) -> List:
     return character_skills["skills"]
 
 
+def get_class_equipment(class_name: str) -> List:
+    class_ = classes.find_one({"name": class_name}, {"starting_equipment": 1, "_id": 0})
+    return class_["starting_equipment"]
+
+
 def get_backgrounds() -> List:
     """Get all avialable backgrounds from database"""
     all_backgrounds = [background for background in backgrounds.find({}, {"_id": 0})]
@@ -51,7 +56,21 @@ def create_char(char: dict):
     """Takes a dict, create Character and insert it in database"""
     character_class = classes.find_one({"name": char["character_class"]})
     character_race = races.find_one({"name": char["race"]})
-    character_rbackground = backgrounds.find_one({"name": char["background"]})
+
+    character_background = backgrounds.find_one({"name": char["background"]})
+    background_equipment = [item["name"] for item in character_background["equipment"]]
+    char_languages = set()
+
+    if char["subrace"] != "No subrace": # char["subrace"]
+        result = races.find_one({"subraces": {"$elemMatch": {"name": char["subrace"]}}},
+    {"languages": 1, "_id": 0})
+        subrace_lang = result["languages"]
+        char_languages.update(subrace_lang)
+    else:
+        char_languages.update(character_race["languages"])
+        
+    if character_background["languages"] is not None:
+        char_languages.update(character_background["languages"])
 
     for ability in character_race["ability_score_bonuses"]:
         name = ability["ability"]
@@ -78,18 +97,22 @@ def create_char(char: dict):
         character_class=character_class["name"],
         subclass=" ",
         level=char["level"],
-        background=character_rbackground,
+        experience=0,
+        background=character_background["name"],
         alignment=char["alignment"],
         proficiency_bonus=proficiency_bonuses[char["level"]],
         stats=stats,
         skills=skills,
         abilities=character_class["abilities"],
-        equipment=character_class["starting_equipment"],
+        armor=char["armor"],
+        weapon=char["weapon"],
+        equipment=char["equipment"]+background_equipment,
         current_hp=hp,
         max_hp=hp,
         armor_class=10 + modificators[char["stats"]["Dexterity"]],
         initiative=modificators[char["stats"]["Dexterity"]],
         speed=character_race["speed"],
+        languages=list(char_languages),
         notes=char["notes"],
     )
 

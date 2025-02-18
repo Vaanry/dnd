@@ -1,4 +1,5 @@
 from mongobase.schemas import Ability, CharacterClass, Feature, Subclass
+from mongobase.items import barbarian_set_1, barbarian_set_2
 
 cleric_class = CharacterClass(
     name="Cleric",
@@ -129,7 +130,7 @@ barbarian_class = CharacterClass(
     saving_throws=["Strength", "Constitution"],
     armor_proficiencies=["Light Armor", "Medium Armor", "Shields"],
     weapon_proficiencies=["Simple Weapons", "Martial Weapons"],
-    starting_equipment=["Greataxe", "Explorer's Pack", "4 Javelins"],
+    starting_equipment=[barbarian_set_1, barbarian_set_2],
     abilities=[
         Ability(
             name="Rage",

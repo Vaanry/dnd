@@ -78,6 +78,38 @@
     </div>
     <div class="char_main_info">
         <form method="post" action="/character/save">
+            <label for="backgroundDropdown">Стартовый набор:</label>
+            {% for equipment in class_equipment %}
+            <label>
+                <input type="radio" name="selected_equipment" value="{{ loop.index }}">
+                <strong>Набор {{ loop.index }}</strong>
+            </label>
+            <fieldset>
+                <legend>Состав:</legend>
+    
+                <h4>Оружие:</h4>
+                <ul>
+                    {% for weapon in equipment.weapon %}
+                        <li>{{ weapon.name }} ({{ weapon.damage[0].amount }} {{ weapon.damage[0].damage_type }})</li>
+                    {% endfor %}
+                </ul>
+    
+                <h4>Броня:</h4>
+                {% if equipment.armor %}
+                    <p>{{ equipment.armor.name }}</p>
+                {% else %}
+                    <p>Нет брони</p>
+                {% endif %}
+    
+                <h4>Дополнительные предметы:</h4>
+                <ul>
+                    {% for item in equipment.other %}
+                        <li>{{ item.name }} (x{{ item.quantity }})</li>
+                    {% endfor %}
+                </ul>
+    
+            </fieldset>
+        {% endfor %}
             <label for="notes">Краткое описание твоего персонажа:</label>
             <input type="text" class="notes" id="notes" name="notes" autocomplete="off"
                 title="Максимальная длина 200 символов" maxlength="200">

@@ -21,14 +21,15 @@ class Subclass(BaseModel):
     features: List[Feature]
 
 
-# class EquipmentItem(BaseModel):
-#     name: str
-#     quantity: int
+class EquipmentItem(BaseModel):
+    name: str
+    quantity: int
+    cost: int  # Стоимость(в золотых монетах)
 
 
-# class EquipmentItem(BaseModel):
-#     name: str
-#     quantity: int
+class MoneyItem(BaseModel):
+    name: str  # Тип монет (золотые, серебряные, медные и тд)
+    quantity: int
 
 
 class ArmorItem(BaseModel):
@@ -63,6 +64,12 @@ class WeaponItem(BaseModel):
     cost: int  # Стоимость
 
 
+class EquipmentSet(BaseModel):
+    armor: Optional[List[ArmorItem]]
+    weapon: Optional[List[WeaponItem]]
+    other: Optional[List[EquipmentItem]]
+
+
 class CharacterClass(BaseModel):
     # owner: int  # ID владельца персонажа
     name: str  # Название класса, например, "Barbarian"
@@ -75,7 +82,7 @@ class CharacterClass(BaseModel):
         str
     ]  # Например, ["Light Armor", "Medium Armor", "Shields"]
     weapon_proficiencies: List[str]  # Например, ["Simple Weapons"]
-    starting_equipment: List[str]  # Базовая экипировка
+    starting_equipment: List[EquipmentSet]  # Базовая экипировка
     abilities: List[Ability]  # Стартовые способности
     features: List[Feature]  # Особенности класса
     subclasses: Optional[List[Subclass]]  # Специализации (подклассы)
@@ -97,12 +104,14 @@ class SkillProficiencies(BaseModel):
 
 class CharacterBackground(BaseModel):
     name: str  # Название происхождения, например, "Acolyte" (Послушник)
+    description: str  # Общая информация
     skill_proficiencies: List[str]  # Владение навыками
     tool_proficiencies: Optional[List[str]] = (
         None  # Владение инструментами (опционально)
     )
     languages: Optional[List[str]] = None  # Языки (опционально, от 0 до 3)
-    equipment: List[str]  # Стартовое снаряжение
+    equipment: List[EquipmentItem]  # Стартовое снаряжение
+    money: List[MoneyItem]
 
 
 class Character(BaseModel):
@@ -114,18 +123,22 @@ class Character(BaseModel):
     character_class: str  # Ссылка на модель класса
     subclass: str  # Ссылка на подкласс (если есть)
     level: int  # Уровень персонажа
-    background: CharacterBackground  # Происхождение персонажа
+    experience: int
+    background: str  # Происхождение персонажа
     alignment: str  # Мировоззрение, например, "Chaotic Good"
     proficiency_bonus: int  # Бонус умения
     stats: Stats  # Основные характеристики
     skills: SkillProficiencies  # Умения персонажа
     abilities: List[Ability]  # Список способностей (из модели класса)
-    equipment: List[str]  # Экипировка
+    armor: Optional[List[str]]
+    weapon: Optional[List[str]]
+    equipment: Optional[List[str]]  # Экипировка
     current_hp: int  # Текущие очки здоровья
     max_hp: int  # Максимальные очки здоровья
     armor_class: int  # Класс брони
     initiative: int  # Инициатива
     speed: int  # Скорость передвижения
+    languages: List[str]
     notes: Optional[str]  # Дополнительные заметки
 
 
