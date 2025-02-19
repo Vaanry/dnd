@@ -143,12 +143,24 @@
 
 .inspiration {
     /* border: 1px solid black; */
-    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+    background-image: url('/static/images/charsheet_img/inspiration_reverse.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .proficiency_bonus {
-    /* border: 1px solid black; */
-    padding: 10px;
+    /* border: 1px solid black;*/
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+    background-image: url('/static/images/charsheet_img/proficiency_bonus_reverse.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .modifier {
@@ -156,10 +168,27 @@
     padding: 10px;
 }
 
+.save_throws_box {
+    padding: 10px;
+    background-image: url('/static/images/charsheet_img/save_throws.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
 .save_throws {
     /* border: 1px solid black; */
     width: 100%;
     padding: 10px;
+}
+
+.skills_box {
+    padding: 10px;
+    background-image: url('/static/images/charsheet_img/skills.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .skills {
